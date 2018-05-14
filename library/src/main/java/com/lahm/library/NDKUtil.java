@@ -16,7 +16,7 @@ public class NDKUtil {
         }
     };
 
-    private static void loadLibrariesOnce(LibLoader libLoader) {
+    public static void loadLibrariesOnce(LibLoader libLoader) {
         synchronized (NDKUtil.class) {
             if (!mIsLibLoaded) {
                 if (libLoader == null) {
@@ -29,6 +29,7 @@ public class NDKUtil {
     }
 
     public static void loadLibraryByName(String libName) {
+        if (libName == null || "".equals(libName)) return;
         synchronized (NDKUtil.class) {
             localLibLoader.loadLibrary(libName);
         }

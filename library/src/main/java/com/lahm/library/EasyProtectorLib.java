@@ -45,7 +45,8 @@ public class EasyProtectorLib {
     }
 
     public static void checkIsBeingTracedByC() {
-        NDKUtil.loadLibraryByName(null);
+        NDKUtil.loadLibrariesOnce(null);
+//        NDKUtil.loadLibraryByName("antitrace");
     }
 
     public static boolean checkIsUsingMultiVirtualApp() {
