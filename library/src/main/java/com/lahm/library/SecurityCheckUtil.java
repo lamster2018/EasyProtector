@@ -116,33 +116,76 @@ public class SecurityCheckUtil {
     }
 
     /**
-     * 查root，
-     * 是否有su程序----adb shell su
-     * 查看prop里是否含有ro.secure--- getprop ro.secure
-     * 但是对于自编译的eng版本rom无效
+     * 查root
+     * https://mp.weixin.qq.com/s/Je1kRksxHTTYb4l9x3bTmQ
+     * 检查rom编译版本
+     * https://www.jianshu.com/p/7407cf6c34bd
+     * 检查su文件
+     * https://www.jianshu.com/p/f9f39704e30c
      */
     public boolean isRoot() {
+        int debugProp = getroDebugProp();
+        if (debugProp == 0)//user版本，继续查su文件
+            return isSUExist();
+        int secureProp = getroSecureProp();
+        if (secureProp == 0)//eng版本，自带root权限
+            return true;
+        else return isSUExist();//userdebug版本，继续查su文件
+    }
+
+    private int getroSecureProp() {
+        int secureProp;
         Object roSecureObj;
-        boolean bSecure;
-        boolean isRoot;
-        //获取default.prop 中文件ro.secure的值,为0则安全，为1进一步检测
         try {
             roSecureObj = Class.forName("android.os.SystemProperties")
                     .getMethod("get", String.class)
                     .invoke(null, "ro.secure");
+
         } catch (Throwable fuck) {
             roSecureObj = null;
         }
-
-        if (roSecureObj == null) bSecure = false;
+        if (roSecureObj == null) secureProp = 0;
         else {
-            if ("0".equals(roSecureObj)) bSecure = true;
-            else bSecure = false;
+            if ("0".equals(roSecureObj)) secureProp = 0;
+            else secureProp = 1;
         }
+        return secureProp;
+    }
 
-        //检查了ro.secure值，还要检查有没有su文件，这里是ide直接简化了的
-        isRoot = !bSecure && (new File("/system/bin/su").exists() || new File("/system/xbin/su").exists());
-        return isRoot;
+    private int getroDebugProp() {
+        int debugProp;
+        Object roDebugObj;
+        try {
+            roDebugObj = Class.forName("android.os.SystemProperties")
+                    .getMethod("get", String.class)
+                    .invoke(null, "ro.debuggable");
+
+        } catch (Throwable fuck) {
+            roDebugObj = null;
+        }
+        if (roDebugObj == null) debugProp = 0;
+        else {
+            if ("0".equals(roDebugObj)) debugProp = 0;
+            else debugProp = 1;
+        }
+        return debugProp;
+    }
+
+    private boolean isSUExist() {
+        File file = null;
+        String[] paths = {"/sbin/su",
+                "/system/bin/su",
+                "/system/xbin/su",
+                "/data/local/xbin/su",
+                "/data/local/bin/su",
+                "/system/sd/xbin/su",
+                "/system/bin/failsafe/su",
+                "/data/local/su"};
+        for (String path : paths) {
+            file = new File(path);
+            if (file.exists()) return true;
+        }
+        return false;
     }
 
     private static final String XPOSED_HELPERS = "de.robv.android.xposed.XposedHelpers";

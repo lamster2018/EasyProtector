@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 "包名检测有多开" : "包名检测正常");
 
         TextView root = findViewById(R.id.root);
-        root.setText(EasyProtectorLib.checkIsRoot() ? "已root" : "未root");
+        root.setText(EasyProtectorLib.checkIsRoot() ? "有root权限" : "无root权限或root不成功");
 
         TextView debug = findViewById(R.id.debug);
         debug.setText(EasyProtectorLib.checkIsDebug() ? "debug" : "no-debug");
