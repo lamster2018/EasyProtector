@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -115,7 +116,10 @@ public class SecurityCheckUtil {
     }
 
     /**
-     * 两步查root，1查prop，2查su
+     * 查root，
+     * 是否有su程序----adb shell su
+     * 查看prop里是否含有ro.secure--- getprop ro.secure
+     * 但是对于自编译的eng版本rom无效
      */
     public boolean isRoot() {
         Object roSecureObj;
@@ -176,6 +180,33 @@ public class SecurityCheckUtil {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 尝试关闭xp的全局开关
+     * @return
+     */
+    public boolean tryShutdownXposed() {
+        if (isXposedExists()) {
+            Field xpdisabledHooks = null;
+            try {
+                xpdisabledHooks = ClassLoader.getSystemClassLoader()
+                        .loadClass("de.robv.android.xposed.XposedBridge")
+                        .getDeclaredField("disableHooks");
+                xpdisabledHooks.setAccessible(true);
+                xpdisabledHooks.set(null, Boolean.TRUE);
+                return true;
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+                return false;
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                return false;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else return true;
     }
 
     /**

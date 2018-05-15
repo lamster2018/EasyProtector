@@ -28,5 +28,6 @@ public class MainActivity extends AppCompatActivity {
         EasyProtectorLib.checkIsRoot();
         EasyProtectorLib.checkIsUsingMultiVirtualApp();
         EasyProtectorLib.checkIsXposedExist();
+        EasyProtectorLib.checkXposedExistAndDisableIt();
     }
 }

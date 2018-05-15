@@ -36,6 +36,10 @@ public class EasyProtectorLib {
         return SecurityCheckUtil.getSingleInstance().isXposedExists();
     }
 
+    public static boolean checkXposedExistAndDisableIt() {
+        return SecurityCheckUtil.getSingleInstance().tryShutdownXposed();
+    }
+
     public static boolean checkHasLoadSO(String soName) {
         return SecurityCheckUtil.getSingleInstance().hasReadProcMaps(soName);
     }
