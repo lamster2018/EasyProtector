@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 27
@@ -38,4 +39,13 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 //    implementation 'com.android.support:appcompat-v7:27.1.1'
+}
+
+publish {
+    userOrg = 'lamster2018' //bintray注册的用户名（不是邮箱）
+    groupId = 'com.lahm.library'
+    artifactId = 'easy-protector' //项目名称
+    publishVersion = '1.0.0' //版本号
+    desc = 'protect your android app' //项目描述。可空。
+    website = 'https://github.com/lamster2018/EasyProtector' //项目地址，一般填github地址。可空。
 }
