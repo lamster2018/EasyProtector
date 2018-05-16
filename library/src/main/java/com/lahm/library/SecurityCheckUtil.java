@@ -196,7 +196,10 @@ public class SecurityCheckUtil {
      */
     public boolean isXposedExists() {
         try {
-            Object xpHelperObj = ClassLoader.getSystemClassLoader().loadClass(XPOSED_HELPERS).newInstance();
+            Object xpHelperObj = ClassLoader
+                    .getSystemClassLoader()
+                    .loadClass(XPOSED_HELPERS)
+                    .newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
             return true;
@@ -210,7 +213,10 @@ public class SecurityCheckUtil {
         }
 
         try {
-            Object xpBridgeObj = ClassLoader.getSystemClassLoader().loadClass(XPOSED_BRIDGE).newInstance();
+            Object xpBridgeObj = ClassLoader
+                    .getSystemClassLoader()
+                    .loadClass(XPOSED_BRIDGE)
+                    .newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
             return true;
@@ -235,7 +241,7 @@ public class SecurityCheckUtil {
             Field xpdisabledHooks = null;
             try {
                 xpdisabledHooks = ClassLoader.getSystemClassLoader()
-                        .loadClass("de.robv.android.xposed.XposedBridge")
+                        .loadClass(XPOSED_BRIDGE)
                         .getDeclaredField("disableHooks");
                 xpdisabledHooks.setAccessible(true);
                 xpdisabledHooks.set(null, Boolean.TRUE);
