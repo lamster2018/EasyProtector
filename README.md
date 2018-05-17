@@ -11,6 +11,9 @@ https://www.jianshu.com/p/c37b1bdb4757
 
 测试机器
 红米3S Android6.0 eng rom
+
 华为P9 Android7.0 EMUI5.0
+
 小米MIX2 Android8.0 MIUI稳定版9.5
+
 一加5T Android8.1 氢OS
