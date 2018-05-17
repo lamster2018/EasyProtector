@@ -66,17 +66,17 @@ public class SecurityCheckUtil {
     }
 
     /**
-     * 拿appInfo的值去判断
+     * 应用是否为debug版本
      */
-    public boolean checkIsDebugA(Context context) {
+    public boolean checkIsDebugVersion(Context context) {
         return (context.getApplicationInfo().flags
                 & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
     }
 
     /**
-     * 直接调用debug
+     * debugger是否连接
      */
-    public boolean checkIsDebugB() {
+    public boolean checkIsDebuggerConnected() {
         return android.os.Debug.isDebuggerConnected();
     }
 

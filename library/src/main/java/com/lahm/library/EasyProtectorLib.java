@@ -15,8 +15,9 @@ public class EasyProtectorLib {
         return SecurityCheckUtil.getSingleInstance().getSignature(context);
     }
 
-    public static boolean checkIsDebug() {
-        return SecurityCheckUtil.getSingleInstance().checkIsDebugB();
+    public static boolean checkIsDebug(Context context) {
+        return SecurityCheckUtil.getSingleInstance().checkIsDebugVersion(context) ||
+                SecurityCheckUtil.getSingleInstance().checkIsDebuggerConnected();
     }
 
     public static boolean checkIsPortUsing(String host, int port) {
