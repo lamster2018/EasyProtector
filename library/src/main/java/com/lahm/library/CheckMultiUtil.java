@@ -23,6 +23,12 @@ import java.util.Locale;
  * 方案均来自
  * 1.https://blog.darkness463.top/2018/05/04/Android-Virtual-Check/
  * 2.https://www.jianshu.com/p/216d65d9971e
+ * <p>
+ * 测试机器
+ * 红米3S Android6.0 eng rom--ok
+ * 华为P9 Android7.0 EMUI5.0--多开分身6.9版本失败
+ * 小米MIX2 Android8.0 MIUI稳定版9.5--多开分身6.9版本失败
+ * 一加5T Android8.1 氢OS--多开分身6.9版本失败
  */
 public class CheckMultiUtil {
 
@@ -78,6 +84,7 @@ public class CheckMultiUtil {
     private String[] virtualPkgs = {
             "com.bly.dkplat",//多开分身
             "com.lbe.parallel",//平行空间
+            "com.excelliance.dualaid",//双开助手
             "com.qihoo.magic"//360分身大师
     };
 
