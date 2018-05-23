@@ -3,7 +3,7 @@
 
 ```
 使用方法
-implementation 'com.lahm.library:easy-protector:latest.release'
+implementation 'com.lahm.library:easy-protector-release:latest.release'
 ```
 
 文档see
