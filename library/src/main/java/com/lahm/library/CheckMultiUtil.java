@@ -4,6 +4,7 @@ package com.lahm.library;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -35,6 +36,14 @@ public class CheckMultiUtil {
             }
         }
         return singleInstance;
+    }
+
+    public boolean checkByPrivateFilePath(Context context) {
+        String path = context.getFilesDir().getPath();
+        for (String virtualPkg : virtualPkgs) {
+            if (path.contains(virtualPkg)) return true;
+        }
+        return false;
     }
 
     public boolean checkByOriginApkPackageName(Context context) {
