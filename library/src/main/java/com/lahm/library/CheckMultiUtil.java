@@ -18,17 +18,6 @@ import java.util.Locale;
  * Project Name:checkMultiApk
  * Package Name:com.lahm.library
  * Created by lahm on 2018/5/14 下午4:11
- * <p>
- * 检测多开app方案
- * 方案均来自
- * 1.https://blog.darkness463.top/2018/05/04/Android-Virtual-Check/
- * 2.https://www.jianshu.com/p/216d65d9971e
- * <p>
- * 测试机器
- * 红米3S Android6.0 eng rom--ok
- * 华为P9 Android7.0 EMUI5.0--多开分身6.9版本失败
- * 小米MIX2 Android8.0 MIUI稳定版9.5--多开分身6.9版本失败
- * 一加5T Android8.1 氢OS--多开分身6.9版本失败
  */
 public class CheckMultiUtil {
 
@@ -48,18 +37,6 @@ public class CheckMultiUtil {
         return singleInstance;
     }
 
-    /**
-     * 应用列表检测
-     * 多开App都会对context.getPackageName()进行处理，让这个方法返回原始App的包名，
-     * 因此在被多开的App看来，多开App的包名和原始的App的包名一样，
-     * 多开环境下遍历应用列表时会发现包名等于原始App的包名的应用会有两个
-     * <p>
-     * 翻译一下，多开app把原始app克隆了，并让自己的包名跟原始app一样，
-     * 当使用克隆app时，会检测到原始app的包名会和多开app包名一样（就是有两个一样的包名）
-     *
-     * @param context context
-     * @return
-     */
     public boolean checkByOriginApkPackageName(Context context) {
         try {
             if (context == null) {
@@ -88,15 +65,6 @@ public class CheckMultiUtil {
             "com.qihoo.magic"//360分身大师
     };
 
-    /**
-     * maps检测
-     * 因为多开App会加载一些自己的so到内存空间
-     * 通过读取/proc/self/maps
-     * 如果maps中有多开App的包名的东西,则认为是多开
-     * 需要维护一份多开app的包名集合
-     *
-     * @return
-     */
     public boolean checkByMultiApkPackageName() {
         BufferedReader bufr = null;
         try {
@@ -123,12 +91,6 @@ public class CheckMultiUtil {
         return false;
     }
 
-    /**
-     * ps检测
-     * 如果满足同一uid下的两个进程对应的包名，在"/data/data"下有两个私有目录，则该应用被多开
-     *
-     * @return
-     */
     public boolean checkByHasSameUid() {
         String filter = getUidStrFormat();
 

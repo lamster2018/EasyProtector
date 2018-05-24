@@ -41,9 +41,6 @@ public class SecurityCheckUtil {
         return singleInstance;
     }
 
-    /**
-     * 通过包管理器获得指定包名包含签名的包信息
-     */
     public String getSignature(Context context) {
         try {
             PackageInfo packageInfo = context.
@@ -65,32 +62,20 @@ public class SecurityCheckUtil {
         return "";
     }
 
-    /**
-     * 应用是否为debug版本
-     */
     public boolean checkIsDebugVersion(Context context) {
         return (context.getApplicationInfo().flags
                 & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
     }
 
-    /**
-     * debugger是否连接
-     */
     public boolean checkIsDebuggerConnected() {
         return android.os.Debug.isDebuggerConnected();
     }
 
-    /**
-     * 拿appInfo去找meta值
-     */
     public String getApplicationMetaValue(Context context, String name) {
         ApplicationInfo appInfo = context.getApplicationInfo();
         return appInfo.metaData.getString(name);
     }
 
-    /***
-     *  true:already in using  false:not using
-     */
     public boolean isLoclePortUsing(int port) {
         boolean flag = true;
         try {
@@ -100,10 +85,6 @@ public class SecurityCheckUtil {
         return flag;
     }
 
-    /***
-     *  true:already in using  false:not using
-     * @throws UnknownHostException
-     */
     public boolean isPortUsing(String host, int port) throws UnknownHostException {
         boolean flag = false;
         InetAddress theAddress = InetAddress.getByName(host);
@@ -115,14 +96,6 @@ public class SecurityCheckUtil {
         return flag;
     }
 
-    /**
-     * 查root
-     * https://mp.weixin.qq.com/s/Je1kRksxHTTYb4l9x3bTmQ
-     * 检查rom编译版本
-     * https://www.jianshu.com/p/7407cf6c34bd
-     * 检查su文件
-     * https://www.jianshu.com/p/f9f39704e30c
-     */
     public boolean isRoot() {
         int debugProp = getroDebugProp();
         if (debugProp == 0)//user版本，继续查su文件
@@ -191,9 +164,6 @@ public class SecurityCheckUtil {
     private static final String XPOSED_HELPERS = "de.robv.android.xposed.XposedHelpers";
     private static final String XPOSED_BRIDGE = "de.robv.android.xposed.XposedBridge";
 
-    /**
-     * 检查xposed是否存在，就是查文件
-     */
     public boolean isXposedExists() {
         try {
             Object xpHelperObj = ClassLoader
@@ -231,11 +201,6 @@ public class SecurityCheckUtil {
         return true;
     }
 
-    /**
-     * 尝试关闭xp的全局开关
-     *
-     * @return
-     */
     public boolean tryShutdownXposed() {
         if (isXposedExists()) {
             Field xpdisabledHooks = null;
@@ -259,9 +224,6 @@ public class SecurityCheckUtil {
         } else return true;
     }
 
-    /**
-     * 读取已经load的so库
-     */
     public boolean hasReadProcMaps(String paramString) {
         try {
             Object localObject = new HashSet();
@@ -289,9 +251,6 @@ public class SecurityCheckUtil {
         return false;
     }
 
-    /**
-     * 拿status里的traceid，轮询实际上也是读取这个文件
-     */
     public boolean readProcStatus() {
         try {
             BufferedReader localBufferedReader =
