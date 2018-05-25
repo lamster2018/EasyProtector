@@ -51,8 +51,15 @@
 
     <Button
         android:id="@+id/loadSO"
-        android:text="click me load so"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="click me load so" />
+
+    <Button
+        android:id="@+id/test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="click me" />
 
 </LinearLayout>

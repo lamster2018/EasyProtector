@@ -42,13 +42,19 @@ public class MainActivity extends AppCompatActivity {
         traced.setText(EasyProtectorLib.checkIsBeingTracedByJava() ? "being traced" : "safe");
 
         final Button loadSO = findViewById(R.id.loadSO);
-        loadSO.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EasyProtectorLib.checkIsBeingTracedByC();
-                loadSO.setText("log中查看traceId");
-                loadSO.setClickable(false);
-            }
+        loadSO.setOnClickListener(v -> {
+            EasyProtectorLib.checkIsBeingTracedByC();
+            loadSO.setText("log中查看traceId");
+            loadSO.setClickable(false);
         });
+
+        Button test = findViewById(R.id.test);
+        test.setOnClickListener(v -> gg());
     }
+
+    private void gg() {
+
+    }
+
+
 }

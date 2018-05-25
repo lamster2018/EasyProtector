@@ -201,8 +201,19 @@ public class SecurityCheckUtil {
         return true;
     }
 
+    public boolean isEposedExistByThrow() {
+        try {
+            throw new Exception("gg");
+        } catch (Exception e) {
+            for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+                if (stackTraceElement.getClassName().contains(XPOSED_BRIDGE)) return true;
+            }
+            return false;
+        }
+    }
+
     public boolean tryShutdownXposed() {
-        if (isXposedExists()) {
+        if (isEposedExistByThrow()) {
             Field xpdisabledHooks = null;
             try {
                 xpdisabledHooks = ClassLoader.getSystemClassLoader()
