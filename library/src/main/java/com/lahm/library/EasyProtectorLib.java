@@ -34,7 +34,7 @@ public class EasyProtectorLib {
     }
 
     public static boolean checkIsXposedExist() {
-        return SecurityCheckUtil.getSingleInstance().isXposedExists();
+        return SecurityCheckUtil.getSingleInstance().isXposedExistByThrow();
     }
 
     public static boolean checkXposedExistAndDisableIt() {

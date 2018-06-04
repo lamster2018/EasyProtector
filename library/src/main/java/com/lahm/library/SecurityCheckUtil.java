@@ -201,7 +201,7 @@ public class SecurityCheckUtil {
         return true;
     }
 
-    public boolean isEposedExistByThrow() {
+    public boolean isXposedExistByThrow() {
         try {
             throw new Exception("gg");
         } catch (Exception e) {
@@ -213,7 +213,7 @@ public class SecurityCheckUtil {
     }
 
     public boolean tryShutdownXposed() {
-        if (isEposedExistByThrow()) {
+        if (isXposedExistByThrow()) {
             Field xpdisabledHooks = null;
             try {
                 xpdisabledHooks = ClassLoader.getSystemClassLoader()
