@@ -71,6 +71,7 @@ public class CheckMultiUtil {
             "com.bly.dkplat",//多开分身
             "com.lbe.parallel",//平行空间
             "com.excelliance.dualaid",//双开助手
+            "com.lody.virtual",//VirtualXposed，VirtualApp
             "com.qihoo.magic"//360分身大师
     };
 
