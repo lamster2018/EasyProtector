@@ -25,20 +25,16 @@ import java.util.Set;
  * Created by lahm on 2018/5/14 下午10:31 .
  */
 public class SecurityCheckUtil {
-    private static volatile SecurityCheckUtil singleInstance;
+
+    private static class SingletonHolder {
+        private static final SecurityCheckUtil singleInstance = new SecurityCheckUtil();
+    }
 
     private SecurityCheckUtil() {
     }
 
-    public static SecurityCheckUtil getSingleInstance() {
-        if (singleInstance == null) {
-            synchronized (SecurityCheckUtil.class) {
-                if (singleInstance == null) {
-                    singleInstance = new SecurityCheckUtil();
-                }
-            }
-        }
-        return singleInstance;
+    public static final SecurityCheckUtil getSingleInstance() {
+        return SingletonHolder.singleInstance;
     }
 
     public String getSignature(Context context) {
