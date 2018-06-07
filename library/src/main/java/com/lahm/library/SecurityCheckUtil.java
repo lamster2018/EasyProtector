@@ -9,7 +9,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.BatteryManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.Process;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,6 +26,7 @@ import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Project Name:EasyProtector
@@ -72,7 +77,7 @@ public class SecurityCheckUtil {
     }
 
     //检查usb充电状态，借助来做usb调试检查
-    public boolean checkForUsbChargingStatus(Context context) {
+    public boolean checkIsUsbCharging(Context context) {
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, filter);
         if (batteryStatus == null) return false;

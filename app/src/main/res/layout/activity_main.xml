@@ -37,17 +37,30 @@
     <TextView
         android:id="@+id/debug"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:minHeight="20dp"
+        android:minWidth="100dp" />
+
+    <TextView
+        android:id="@+id/usb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="20dp"
+        android:minWidth="100dp" />
 
     <TextView
         android:id="@+id/xp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:minHeight="20dp"
+        android:minWidth="100dp" />
 
     <TextView
         android:id="@+id/traced"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:minHeight="20dp"
+        android:minWidth="100dp" />
 
     <Button
         android:id="@+id/loadSO"

@@ -1,13 +1,17 @@
 package com.lahm.easyprotector;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.lahm.library.CheckMultiUtil;
 import com.lahm.library.EasyProtectorLib;
+import com.lahm.library.SecurityCheckUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +34,12 @@ public class MainActivity extends AppCompatActivity {
         root.setText(EasyProtectorLib.checkIsRoot() ? "有root权限" : "无root权限或root不成功");
 
         TextView debug = findViewById(R.id.debug);
-        debug.setText(EasyProtectorLib.checkIsDebug(this) ? "debug" : "no-debug");
+        debug.setText(SecurityCheckUtil.getSingleInstance().checkIsDebugVersion(this) ?
+                "debug-version" : "release-version");
+
+        usb = findViewById(R.id.usb);
+        usb.setText(SecurityCheckUtil.getSingleInstance().checkIsDebuggerConnected() ?
+                "debugger-connect" : "no-debugger-connect");
 
         TextView xp = findViewById(R.id.xp);
         xp.setText(EasyProtectorLib.checkIsXposedExist() ?
@@ -39,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 : "无xp框架");
 
         TextView traced = findViewById(R.id.traced);
-        traced.setText(EasyProtectorLib.checkIsBeingTracedByJava() ? "being traced" : "safe");
+        traced.setText(EasyProtectorLib.checkIsBeingTracedByJava() ? "being traced" : "no-tracer");
 
         final Button loadSO = findViewById(R.id.loadSO);
         loadSO.setOnClickListener(v -> {
@@ -52,9 +61,44 @@ public class MainActivity extends AppCompatActivity {
         test.setOnClickListener(v -> gg());
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_POWER_CONNECTED);
+        intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        registerReceiver(receiver, intentFilter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+    }
+
     private void gg() {
 
     }
 
+    BatteryChangeBroadCastReceiver receiver = new BatteryChangeBroadCastReceiver();
+    private TextView usb;
 
+    //最好是开启子线程轮询的方式监听，在插上usb的一瞬间，debugger并没有attach上
+    private class BatteryChangeBroadCastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case Intent.ACTION_POWER_CONNECTED:
+                    usb.setText(
+                            SecurityCheckUtil.getSingleInstance().checkIsUsbCharging(MainActivity.this) ?
+                                    SecurityCheckUtil.getSingleInstance().checkIsDebuggerConnected() ?
+                                            "debugger-connect！！" : "only-usb-charging"
+                                    : "only-charging");
+                    break;
+                case Intent.ACTION_POWER_DISCONNECTED:
+                    usb.setText("no-usb-connected");
+                    break;
+            }
+        }
+    }
 }
