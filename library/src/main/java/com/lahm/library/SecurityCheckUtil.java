@@ -1,10 +1,14 @@
 package com.lahm.library;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Process;
 
 import java.io.BufferedReader;
@@ -65,6 +69,15 @@ public class SecurityCheckUtil {
 
     public boolean checkIsDebuggerConnected() {
         return android.os.Debug.isDebuggerConnected();
+    }
+
+    //检查usb充电状态，借助来做usb调试检查
+    public boolean checkForUsbChargingStatus(Context context) {
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = context.registerReceiver(null, filter);
+        if (batteryStatus == null) return false;
+        int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+        return chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
     }
 
     public String getApplicationMetaValue(Context context, String name) {
