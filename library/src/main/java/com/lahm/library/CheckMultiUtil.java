@@ -4,10 +4,7 @@ package com.lahm.library;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -104,7 +101,7 @@ public class CheckMultiUtil {
     public boolean checkByHasSameUid() {
         String filter = getUidStrFormat();
 
-        String result = exec("ps");
+        String result = CommandUtil.getSingleInstance().exec("ps");
         if (result == null || result.isEmpty()) {
             return false;
         }
@@ -131,73 +128,8 @@ public class CheckMultiUtil {
         return exitDirCount > 1;
     }
 
-
-    private String exec(String command) {
-        BufferedOutputStream bufferedOutputStream = null;
-        BufferedInputStream bufferedInputStream = null;
-        Process process = null;
-        try {
-            process = Runtime.getRuntime().exec("sh");
-            bufferedOutputStream = new BufferedOutputStream(process.getOutputStream());
-
-            bufferedInputStream = new BufferedInputStream(process.getInputStream());
-            bufferedOutputStream.write(command.getBytes());
-            bufferedOutputStream.write('\n');
-            bufferedOutputStream.flush();
-            bufferedOutputStream.close();
-
-            process.waitFor();
-
-            String outputStr = getStrFromBufferInputSteam(bufferedInputStream);
-            return outputStr;
-        } catch (Exception e) {
-            return null;
-        } finally {
-            if (bufferedOutputStream != null) {
-                try {
-                    bufferedOutputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (bufferedInputStream != null) {
-                try {
-                    bufferedInputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (process != null) {
-                process.destroy();
-            }
-        }
-    }
-
-    private String getStrFromBufferInputSteam(BufferedInputStream bufferedInputStream) {
-        if (null == bufferedInputStream) {
-            return "";
-        }
-        int BUFFER_SIZE = 512;
-        byte[] buffer = new byte[BUFFER_SIZE];
-        StringBuilder result = new StringBuilder();
-        try {
-            while (true) {
-                int read = bufferedInputStream.read(buffer);
-                if (read > 0) {
-                    result.append(new String(buffer, 0, read));
-                }
-                if (read < BUFFER_SIZE) {
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result.toString();
-    }
-
     private String getUidStrFormat() {
-        String filter = exec("cat /proc/self/cgroup");
+        String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
         if (filter == null || filter.length() == 0) {
             return null;
         }
