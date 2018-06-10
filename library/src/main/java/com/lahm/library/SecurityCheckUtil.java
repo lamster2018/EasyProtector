@@ -128,7 +128,7 @@ public class SecurityCheckUtil {
                     .getMethod("get", String.class)
                     .invoke(null, "ro.secure");
 
-        } catch (Throwable fuck) {
+        } catch (Throwable e) {
             roSecureObj = null;
         }
         if (roSecureObj == null) secureProp = 0;
@@ -147,7 +147,7 @@ public class SecurityCheckUtil {
                     .getMethod("get", String.class)
                     .invoke(null, "ro.debuggable");
 
-        } catch (Throwable fuck) {
+        } catch (Throwable e) {
             roDebugObj = null;
         }
         if (roDebugObj == null) debugProp = 0;
