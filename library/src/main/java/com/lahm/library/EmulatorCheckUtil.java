@@ -30,6 +30,33 @@ public class EmulatorCheckUtil {
         return filter == null || filter.length() == 0;
     }
 
+    public boolean readSysProperty() {
+        int suspectCount = 0;
+
+        String basebandVersion = CommandUtil.getSingleInstance().getProperty("gsm.version.baseband");
+        if (basebandVersion == null | "".equals(basebandVersion)) ++suspectCount;
+
+        String buildFlavor = CommandUtil.getSingleInstance().getProperty("ro.build.flavor");
+        if (buildFlavor == null | "".equals(buildFlavor) | (buildFlavor != null && buildFlavor.contains("vbox")))
+            ++suspectCount;
+
+        String productBoard = CommandUtil.getSingleInstance().getProperty("ro.product.board");
+        if (productBoard == null | "".equals(productBoard)) ++suspectCount;
+
+        String boardPlatform = CommandUtil.getSingleInstance().getProperty("ro.board.platform");
+        if (boardPlatform == null | "".equals(boardPlatform)) ++suspectCount;
+
+        if (productBoard != null && boardPlatform != null && !productBoard.equals(boardPlatform))
+            ++suspectCount;
+
+        String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
+        if (filter == null || filter.length() == 0) ++suspectCount;
+
+        System.out.println("gg" + suspectCount);
+        return suspectCount > 2;
+    }
+
+    @Deprecated
     public String readBuildInfo() {
         StringBuffer sb = new StringBuffer();
         sb.append("-\n")
