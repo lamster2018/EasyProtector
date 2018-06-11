@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.lahm.library.CheckMultiUtil;
+import com.lahm.library.VirtualApkCheckUtil;
 import com.lahm.library.EasyProtectorLib;
 import com.lahm.library.SecurityCheckUtil;
 
@@ -21,13 +21,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView one = findViewById(R.id.one);
-        one.setText(CheckMultiUtil.getSingleInstance().checkByPrivateFilePath(this) ?
+        one.setText(VirtualApkCheckUtil.getSingleInstance().checkByPrivateFilePath(this) ?
                 "私有路径检测有多开" : "私有路径检测正常");
         TextView two = findViewById(R.id.two);
-        two.setText(CheckMultiUtil.getSingleInstance().checkByOriginApkPackageName(this) ?
+        two.setText(VirtualApkCheckUtil.getSingleInstance().checkByOriginApkPackageName(this) ?
                 "包名检测有多开" : "包名检测正常");
         TextView three = findViewById(R.id.three);
-        three.setText(CheckMultiUtil.getSingleInstance().checkByMultiApkPackageName() ?
+        three.setText(VirtualApkCheckUtil.getSingleInstance().checkByMultiApkPackageName() ?
                 "maps检测有多开" : "maps检测正常");
         TextView four = findViewById(R.id.four);
         four.setText(EasyProtectorLib.checkIsUsingMultiVirtualApp() ?

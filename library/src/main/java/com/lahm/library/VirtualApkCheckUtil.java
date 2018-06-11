@@ -17,18 +17,18 @@ import java.util.Locale;
  * Package Name:com.lahm.library
  * Created by lahm on 2018/5/14 下午4:11
  */
-public class CheckMultiUtil {
+public class VirtualApkCheckUtil {
 
-    private static volatile CheckMultiUtil singleInstance;
+    private static volatile VirtualApkCheckUtil singleInstance;
 
-    private CheckMultiUtil() {
+    private VirtualApkCheckUtil() {
     }
 
-    public static CheckMultiUtil getSingleInstance() {
+    public static VirtualApkCheckUtil getSingleInstance() {
         if (singleInstance == null) {
-            synchronized (CheckMultiUtil.class) {
+            synchronized (VirtualApkCheckUtil.class) {
                 if (singleInstance == null) {
-                    singleInstance = new CheckMultiUtil();
+                    singleInstance = new VirtualApkCheckUtil();
                 }
             }
         }
