@@ -110,27 +110,16 @@ public class SecurityCheckUtil {
     }
 
     public boolean isRoot() {
-        int debugProp = getroDebugProp();
-        if (debugProp == 0)//user版本，继续查su文件
-            return isSUExist();
         int secureProp = getroSecureProp();
-        if (secureProp == 0)//eng版本，自带root权限
+        if (secureProp == 0)//eng/userdebug版本，自带root权限
             return true;
-        else return isSUExist();//userdebug版本，继续查su文件
+        else return isSUExist();//user版本，继续查su文件
     }
 
     private int getroSecureProp() {
         int secureProp;
-        Object roSecureObj;
-        try {
-            roSecureObj = Class.forName("android.os.SystemProperties")
-                    .getMethod("get", String.class)
-                    .invoke(null, "ro.secure");
-
-        } catch (Throwable e) {
-            roSecureObj = null;
-        }
-        if (roSecureObj == null) secureProp = 0;
+        String roSecureObj = CommandUtil.getSingleInstance().getProperty("ro.secure");
+        if (roSecureObj == null) secureProp = 1;
         else {
             if ("0".equals(roSecureObj)) secureProp = 0;
             else secureProp = 1;
@@ -140,16 +129,8 @@ public class SecurityCheckUtil {
 
     private int getroDebugProp() {
         int debugProp;
-        Object roDebugObj;
-        try {
-            roDebugObj = Class.forName("android.os.SystemProperties")
-                    .getMethod("get", String.class)
-                    .invoke(null, "ro.debuggable");
-
-        } catch (Throwable e) {
-            roDebugObj = null;
-        }
-        if (roDebugObj == null) debugProp = 0;
+        String roDebugObj = CommandUtil.getSingleInstance().getProperty("ro.debuggable");
+        if (roDebugObj == null) debugProp = 1;
         else {
             if ("0".equals(roDebugObj)) debugProp = 0;
             else debugProp = 1;
