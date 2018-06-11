@@ -1,19 +1,78 @@
 # EasyProtector  [ ![Download](https://api.bintray.com/packages/lamster2018/maven/easy-protector-release/images/download.svg) ](https://bintray.com/lamster2018/maven/easy-protector-release/_latestVersion)
-一键集成防护措施
+
+EasyProtector，a simple way to check root/virtual app/emulator/xposed framework/tracer/debugger.
+
+
+
+# Document
+
+- [中国人猛戳这里](https://www.jianshu.com/p/c37b1bdb4757)
+- English （not yet）
+
+
+
+# Download
+
+
+
+You can download a jar from GitHub's [releases page](https://github.com/lamster2018/EasyProtector/releases).
+
+
+
+Or use Gradle:
 
 ```
-使用方法
-implementation 'com.lahm.library:easy-protector-release:latest.release'
+repositories {
+  jcenter()
+  maven()
+  google()
+}
+
+dependencies {
+  implementation 'com.lahm.library:easy-protector-release:latest.release'
+}
 ```
 
-文档see
-https://www.jianshu.com/p/c37b1bdb4757
 
-测试机器
-红米3S Android6.0 eng rom
 
-华为P9 Android7.0 EMUI5.0
+Or maven
 
-小米MIX2 Android8.0 MIUI稳定版9.5
+```
+<dependency>
+  <groupId>com.lahm.library</groupId>
+  <artifactId>easy-protector-release</artifactId>
+  <version>1.0.1</version>
+  <type>pom</type>
+</dependency>
+```
 
-一加5T Android8.1 氢OS
+
+
+# How do I use it？
+
+EasyProtectorLib.checkXXXX();
+
+
+
+# Proguard
+
+no need
+
+
+
+# Compatibility
+
+- Minimum Android SDK: requires a minimum API level of 16.
+- CPU: support x86 & arm
+
+
+
+# Test
+
+| Phone      | SDK         | ROM             |
+| ---------- | ----------- | --------------- |
+| RedMi 3s   | Android 6.0 | google eng      |
+| Huawei P9  | Android 7.0 | EMUI 5.1 root   |
+| Mix 2      | Android 8.0 | MIUI 9 stable   |
+| OnePlus 5T | Android 8.1 | H2OS 5.1 stable |
+
