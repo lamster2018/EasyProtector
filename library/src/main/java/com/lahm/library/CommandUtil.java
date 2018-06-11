@@ -21,6 +21,21 @@ public class CommandUtil {
         return SingletonHolder.INSTANCE;
     }
 
+    public String getProperty(String propName) {
+        String value = null;
+        Object roSecureObj;
+        try {
+            roSecureObj = Class.forName("android.os.SystemProperties")
+                    .getMethod("get", String.class)
+                    .invoke(null, propName);
+            if (roSecureObj != null) value = (String) roSecureObj;
+        } catch (Exception e) {
+            value = null;
+        } finally {
+            return value;
+        }
+    }
+
     public String exec(String command) {
         BufferedOutputStream bufferedOutputStream = null;
         BufferedInputStream bufferedInputStream = null;
