@@ -52,7 +52,6 @@ public class EmulatorCheckUtil {
         String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
         if (filter == null || filter.length() == 0) ++suspectCount;
 
-        System.out.println("gg" + suspectCount);
         return suspectCount > 2;
     }
 

@@ -57,4 +57,8 @@ public class EasyProtectorLib {
     public static boolean checkIsUsingMultiVirtualApp() {
         return VirtualApkCheckUtil.getSingleInstance().checkByHasSameUid();
     }
+
+    public static boolean checkIsRunningInEmulator() {
+        return EmulatorCheckUtil.getSingleInstance().readSysProperty();
+    }
 }

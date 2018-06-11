@@ -6,19 +6,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.lahm.library.CommandUtil;
-import com.lahm.library.EmulatorCheckUtil;
 import com.lahm.library.VirtualApkCheckUtil;
 import com.lahm.library.EasyProtectorLib;
 import com.lahm.library.SecurityCheckUtil;
-
-import java.lang.reflect.Method;
-
-import javax.security.auth.login.LoginException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         TextView emulator = findViewById(R.id.emulator);
+        emulator.setText(EasyProtectorLib.checkIsRunningInEmulator() ?
+                "isEmulator" : "not-emulator");
+
         Button test = findViewById(R.id.test);
         test.setOnClickListener(v -> gg());
     }
