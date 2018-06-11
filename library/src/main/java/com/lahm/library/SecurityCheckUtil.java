@@ -76,7 +76,6 @@ public class SecurityCheckUtil {
         return android.os.Debug.isDebuggerConnected();
     }
 
-    //检查usb充电状态，借助来做usb调试检查
     public boolean checkIsUsbCharging(Context context) {
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, filter);

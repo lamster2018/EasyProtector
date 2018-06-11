@@ -21,25 +21,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView one = findViewById(R.id.one);
-        one.setText(EasyProtectorLib.checkIsUsingMultiVirtualApp() ?
-                "uid检测有多开" : "uid检测正常");
+        one.setText(CheckMultiUtil.getSingleInstance().checkByPrivateFilePath(this) ?
+                "私有路径检测有多开" : "私有路径检测正常");
         TextView two = findViewById(R.id.two);
-        two.setText(CheckMultiUtil.getSingleInstance().checkByMultiApkPackageName() ?
-                "maps检测有多开" : "maps检测正常");
-        TextView three = findViewById(R.id.three);
-        three.setText(CheckMultiUtil.getSingleInstance().checkByOriginApkPackageName(this) ?
+        two.setText(CheckMultiUtil.getSingleInstance().checkByOriginApkPackageName(this) ?
                 "包名检测有多开" : "包名检测正常");
+        TextView three = findViewById(R.id.three);
+        three.setText(CheckMultiUtil.getSingleInstance().checkByMultiApkPackageName() ?
+                "maps检测有多开" : "maps检测正常");
+        TextView four = findViewById(R.id.four);
+        four.setText(EasyProtectorLib.checkIsUsingMultiVirtualApp() ?
+                "ps检测有多开" : "ps检测正常");
 
         TextView root = findViewById(R.id.root);
-        root.setText(EasyProtectorLib.checkIsRoot() ? "有root权限" : "无root权限或root不成功");
+        root.setText(EasyProtectorLib.checkIsRoot() ?
+                "有root权限" : "无root权限或root不成功");
 
         TextView debug = findViewById(R.id.debug);
         debug.setText(SecurityCheckUtil.getSingleInstance().checkIsDebugVersion(this) ?
                 "debug-version" : "release-version");
-
-        usb = findViewById(R.id.usb);
-        usb.setText(SecurityCheckUtil.getSingleInstance().checkIsDebuggerConnected() ?
-                "debugger-connect" : "no-debugger-connect");
 
         TextView xp = findViewById(R.id.xp);
         xp.setText(EasyProtectorLib.checkIsXposedExist() ?
@@ -47,8 +47,13 @@ public class MainActivity extends AppCompatActivity {
                         "有xp框架但关闭成功" : "有xp框架但关闭失败")
                 : "无xp框架");
 
+        usb = findViewById(R.id.usb);
+        usb.setText(SecurityCheckUtil.getSingleInstance().checkIsDebuggerConnected() ?
+                "debugger-connect" : "no-debugger-connect");
+
         TextView traced = findViewById(R.id.traced);
-        traced.setText(EasyProtectorLib.checkIsBeingTracedByJava() ? "being traced" : "no-tracer");
+        traced.setText(EasyProtectorLib.checkIsBeingTracedByJava() ?
+                "being traced" : "no-tracer");
 
         final Button loadSO = findViewById(R.id.loadSO);
         loadSO.setOnClickListener(v -> {
