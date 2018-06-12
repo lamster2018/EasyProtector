@@ -2,6 +2,7 @@
 
 EasyProtector，a simple way to check root/virtual app/emulator/xposed framework/tracer/debugger.
 
+![demo](https://upload-images.jianshu.io/upload_images/2554175-7ee67add271a2035.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 # Document
