@@ -50,8 +50,18 @@ Or maven
 
 # How do I use it？
 
-EasyProtectorLib.checkXXXX();
-
+EasyProtectorLib.checkIsRoot();
+EasyProtectorLib.checkIsDebug();
+EasyProtectorLib.checkIsPortUsing();
+EasyProtectorLib.checkIsXposedExist();
+EasyProtectorLib.checkIsBeingTracedByJava();
+EasyProtectorLib.checkIsUsingMultiVirtualApp();
+EasyProtectorLib.checkIsRunningInEmulator();
+......
+More function see
+SecurityCheckUtil.class
+EmulatorCheckUtil.class
+VirtualApkCheckUtil.class
 
 
 # Proguard
