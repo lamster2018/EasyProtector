@@ -2,8 +2,6 @@
 
 EasyProtector，a simple way to check root/virtual app/emulator/xposed framework/tracer/debugger.
 
-![demo](https://upload-images.jianshu.io/upload_images/2554175-7ee67add271a2035.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
 
 # Document
 
@@ -96,3 +94,6 @@ no need
 | Huawei P9  | Android 7.0 | EMUI 5.1 root   |
 | Mix 2      | Android 8.0 | MIUI 9 stable   |
 | OnePlus 5T | Android 8.1 | H2OS 5.1 stable |
+
+
+![demo](https://upload-images.jianshu.io/upload_images/2554175-7ee67add271a2035.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
