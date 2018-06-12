@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeAllMask"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:canRetrieveWindowContent="true"
+    android:description="@string/access_description"
+    android:notificationTimeout="100"
+    android:packageNames="com.lahm.easyprotector,com.android.packageinstaller" />
+<!--accessibilityEventTypes响应类型-->
+<!--accessibilityFeedbackType回馈类型-->
+<!--notificationTimeout响应时间-->
+<!--canRetrieveWindowContent能否访问活动窗口中的内容-->

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EasyProtector</string>
+    <string name="access_name">EasyProtectorTest</string>
+    <string name="access_description">test auto install</string>
 </resources>
