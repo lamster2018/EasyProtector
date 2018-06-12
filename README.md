@@ -51,18 +51,28 @@ Or maven
 # How do I use it？
 
 EasyProtectorLib.checkIsRoot();
-EasyProtectorLib.checkIsDebug();
-EasyProtectorLib.checkIsPortUsing();
-EasyProtectorLib.checkIsXposedExist();
-EasyProtectorLib.checkIsBeingTracedByJava();
-EasyProtectorLib.checkIsUsingMultiVirtualApp();
-EasyProtectorLib.checkIsRunningInEmulator();
-......
-More function see
-SecurityCheckUtil.class
-EmulatorCheckUtil.class
-VirtualApkCheckUtil.class
 
+EasyProtectorLib.checkIsDebug();
+
+EasyProtectorLib.checkIsPortUsing();
+
+EasyProtectorLib.checkIsXposedExist();
+
+EasyProtectorLib.checkIsBeingTracedByJava();
+
+EasyProtectorLib.checkIsUsingMultiVirtualApp();
+
+EasyProtectorLib.checkIsRunningInEmulator();
+
+......
+
+More function see
+
+SecurityCheckUtil.class
+
+EmulatorCheckUtil.class
+
+VirtualApkCheckUtil.class
 
 # Proguard
 
@@ -85,4 +95,3 @@ no need
 | Huawei P9  | Android 7.0 | EMUI 5.1 root   |
 | Mix 2      | Android 8.0 | MIUI 9 stable   |
 | OnePlus 5T | Android 8.1 | H2OS 5.1 stable |
-
