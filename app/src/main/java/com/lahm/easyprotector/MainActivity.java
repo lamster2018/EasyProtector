@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void gg() {
-//        go2allowAccess();
+
     }
 
     BatteryChangeBroadCastReceiver receiver = new BatteryChangeBroadCastReceiver();
@@ -110,11 +109,5 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
-    }
-
-    private void go2allowAccess() {
-        Intent intent = new Intent();
-        intent.setAction(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-        startActivity(intent);
     }
 }
