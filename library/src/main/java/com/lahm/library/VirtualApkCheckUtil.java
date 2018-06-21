@@ -4,6 +4,7 @@ package com.lahm.library;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -100,16 +101,13 @@ public class VirtualApkCheckUtil {
 
     public boolean checkByHasSameUid() {
         String filter = getUidStrFormat();
+        if (TextUtils.isEmpty(filter)) return false;
 
         String result = CommandUtil.getSingleInstance().exec("ps");
-        if (result == null || result.isEmpty()) {
-            return false;
-        }
+        if (TextUtils.isEmpty(result)) return false;
 
         String[] lines = result.split("\n");
-        if (lines == null || lines.length <= 0) {
-            return false;
-        }
+        if (lines == null || lines.length <= 0) return false;
 
         int exitDirCount = 0;
 
