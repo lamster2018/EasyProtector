@@ -89,7 +89,7 @@ public class SecurityCheckUtil {
         return appInfo.metaData.getString(name);
     }
 
-    public boolean isLoclePortUsing(int port) {
+    public boolean isLocalPortUsing(int port) {
         boolean flag = true;
         try {
             flag = isPortUsing("127.0.0.1", port);
