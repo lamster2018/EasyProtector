@@ -10,8 +10,6 @@ import java.util.List;
  * Project Name:EasyProtector
  * Package Name:com.lahm.easyprotector
  * Created by lahm on 2018/6/12 14:09 .
- * <p>
- * Copyright (c) 2016—2017 https://www.lizhiweike.com all rights reserved.
  */
 public class TestAccessibilityService extends AccessibilityService {
     @Override

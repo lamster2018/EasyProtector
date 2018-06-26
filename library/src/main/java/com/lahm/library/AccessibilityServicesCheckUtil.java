@@ -9,8 +9,6 @@ import android.text.TextUtils;
  * Project Name:EasyProtector
  * Package Name:com.lahm.library
  * Created by lahm on 2018/6/13 9:47 .
- * <p>
- * Copyright (c) 2016—2017 https://www.lizhiweike.com all rights reserved.
  */
 public class AccessibilityServicesCheckUtil {
     private AccessibilityServicesCheckUtil() {
