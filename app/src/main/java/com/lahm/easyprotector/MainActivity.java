@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView one = findViewById(R.id.one);
-        one.setText(VirtualApkCheckUtil.getSingleInstance().checkByPrivateFilePath(this) ?
-                "私有路径检测有多开" : "私有路径检测正常");
+//        one.setText(VirtualApkCheckUtil.getSingleInstance().checkByPrivateFilePath(this) ?
+//                "私有路径检测有多开" : "私有路径检测正常");
         TextView two = findViewById(R.id.two);
         two.setText(VirtualApkCheckUtil.getSingleInstance().checkByOriginApkPackageName(this) ?
                 "包名检测有多开" : "包名检测正常");
@@ -85,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void gg() {
-        startActivity(new Intent(this, SecondActivity.class));
+//        startActivity(new Intent(this, SecondActivity.class));
+        VirtualApkCheckUtil.getSingleInstance().checkByPortListening(getPackageName());
     }
 
     BatteryChangeBroadCastReceiver receiver = new BatteryChangeBroadCastReceiver();

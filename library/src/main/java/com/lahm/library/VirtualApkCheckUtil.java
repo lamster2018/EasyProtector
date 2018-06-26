@@ -5,13 +5,28 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.BindException;
+import java.net.ConnectException;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 /**
  * Project Name:checkMultiApk
@@ -166,5 +181,130 @@ public class VirtualApkCheckUtil {
             }
         }
         return true;
+    }
+
+    public void checkByPortListening(String secret) {
+        startClient(secret);
+        new ServerThread(secret).start();
+    }
+
+    private class ServerThread extends Thread {
+        String secret;
+
+        private ServerThread(String secret) {
+            this.secret = secret;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            startServer(secret);
+        }
+    }
+
+    private void startServer(String secret) {
+        Random random = new Random();
+        ServerSocket serverSocket = null;
+        try {
+            serverSocket = new ServerSocket();
+            serverSocket.bind(new InetSocketAddress("127.0.0.1", random.nextInt(55534) + 10000));
+            while (true) {
+                Log.i("ceshi", "startServer: 等待");
+                Socket socket = serverSocket.accept();
+                ReadThread readThread = new ReadThread(secret, socket);
+                readThread.start();
+//                serverSocket.close();
+            }
+        } catch (BindException e) {
+            startServer(secret);//may be loop forever
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private class ReadThread extends Thread {
+        private ReadThread(String secret, Socket socket) {
+            InputStream inputStream = null;
+            try {
+                inputStream = socket.getInputStream();
+                byte buffer[] = new byte[1024 * 4];
+                int temp = 0;
+                // 从InputStream当中读取客户端所发送的数据
+                while ((temp = inputStream.read(buffer)) != -1) {
+                    String result = new String(buffer, 0, temp);
+                    if (result.contains(secret)) {
+//                        System.exit(0);
+                        textView.setText("");
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private TextView textView;
+
+    private void startClient(String secret) {
+        String tcp6 = CommandUtil.getSingleInstance().exec("cat /proc/net/tcp6");
+        if (TextUtils.isEmpty(tcp6)) return;
+        String[] lines = tcp6.split("\n");
+        ArrayList<Integer> portList = new ArrayList<>();
+        for (int i = 0, len = lines.length; i < len; i++) {
+            int localHost = lines[i].indexOf("0100007F:");//127.0.0.1:
+            if (localHost < 0) continue;
+            String singlePort = lines[i].substring(localHost + 9, localHost + 13);
+            Integer port = Integer.parseInt(singlePort, 16);
+            portList.add(port);
+        }
+        if (portList.isEmpty()) return;
+        for (int port : portList) {
+            new ClientThread(secret, port).start();
+        }
+    }
+
+    private class ClientThread extends Thread {
+        String secret;
+        int port;
+
+        private ClientThread(String secret, int port) {
+            this.secret = secret;
+            this.port = port;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            try {
+                Socket socket = new Socket("127.0.0.1", port);
+                socket.setSoTimeout(2000);
+                Log.i("ceshi", "成功" + port);
+                OutputStream outputStream = socket.getOutputStream();
+                outputStream.write((secret + "\n").getBytes("utf-8"));
+                outputStream.flush();
+                socket.shutdownOutput();
+                InputStream inputStream = socket.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String info = null;
+                while ((info = bufferedReader.readLine()) != null) {
+//                    if(getPackageName().equals(info))System.exit(0);
+                    Log.i("ceshi", "ClientThread: " + info);
+                }
+                //关闭资源
+                bufferedReader.close();
+                inputStream.close();
+                socket.close();
+            } catch (ConnectException e) {
+                Log.i("ceshi", port + "端口拒绝");
+            } catch (SocketException e) {
+                e.printStackTrace();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
