@@ -9,9 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.lahm.library.VirtualApkCheckUtil;
 import com.lahm.library.EasyProtectorLib;
 import com.lahm.library.SecurityCheckUtil;
+import com.lahm.library.VirtualApkCheckUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void gg() {
-
+        startActivity(new Intent(this, SecondActivity.class));
     }
 
     BatteryChangeBroadCastReceiver receiver = new BatteryChangeBroadCastReceiver();
