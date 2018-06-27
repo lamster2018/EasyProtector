@@ -35,7 +35,6 @@
                 android:resource="@xml/test_access_service_config" />
         </service>
 
-        <activity android:name=".SecondActivity" />
     </application>
 
 </manifest>

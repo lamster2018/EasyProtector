@@ -4,6 +4,7 @@ package com.lahm.library;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Process;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -34,7 +35,7 @@ import java.util.Random;
  * Created by lahm on 2018/5/14 下午4:11
  */
 public class VirtualApkCheckUtil {
-
+    private String TAG = "test";
     private static volatile VirtualApkCheckUtil singleInstance;
 
     private VirtualApkCheckUtil() {
@@ -209,7 +210,6 @@ public class VirtualApkCheckUtil {
             serverSocket = new ServerSocket();
             serverSocket.bind(new InetSocketAddress("127.0.0.1", random.nextInt(55534) + 10000));
             while (true) {
-                Log.i("ceshi", "startServer: 等待");
                 Socket socket = serverSocket.accept();
                 ReadThread readThread = new ReadThread(secret, socket);
                 readThread.start();
@@ -229,12 +229,12 @@ public class VirtualApkCheckUtil {
                 inputStream = socket.getInputStream();
                 byte buffer[] = new byte[1024 * 4];
                 int temp = 0;
-                // 从InputStream当中读取客户端所发送的数据
                 while ((temp = inputStream.read(buffer)) != -1) {
                     String result = new String(buffer, 0, temp);
                     if (result.contains(secret)) {
 //                        System.exit(0);
-                        textView.setText("");
+                        Process.killProcess(Process.myPid());
+//                        nullPointTV.setText("");
                     }
                 }
             } catch (IOException e) {
@@ -243,7 +243,7 @@ public class VirtualApkCheckUtil {
         }
     }
 
-    private TextView textView;
+    private TextView nullPointTV;
 
     private void startClient(String secret) {
         String tcp6 = CommandUtil.getSingleInstance().exec("cat /proc/net/tcp6");
@@ -278,24 +278,23 @@ public class VirtualApkCheckUtil {
             try {
                 Socket socket = new Socket("127.0.0.1", port);
                 socket.setSoTimeout(2000);
-                Log.i("ceshi", "成功" + port);
                 OutputStream outputStream = socket.getOutputStream();
                 outputStream.write((secret + "\n").getBytes("utf-8"));
                 outputStream.flush();
                 socket.shutdownOutput();
+
                 InputStream inputStream = socket.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 String info = null;
                 while ((info = bufferedReader.readLine()) != null) {
-//                    if(getPackageName().equals(info))System.exit(0);
-                    Log.i("ceshi", "ClientThread: " + info);
+                    Log.i(TAG, "ClientThread: " + info);
                 }
-                //关闭资源
+
                 bufferedReader.close();
                 inputStream.close();
                 socket.close();
             } catch (ConnectException e) {
-                Log.i("ceshi", port + "端口拒绝");
+                Log.i(TAG, port + "port refused");
             } catch (SocketException e) {
                 e.printStackTrace();
             } catch (UnknownHostException e) {
