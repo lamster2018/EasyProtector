@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
         emulator.setText(EasyProtectorLib.checkIsRunningInEmulator() ?
                 "isEmulator" : "not-emulator");
 
-        Button test = findViewById(R.id.test);
-        test.setOnClickListener(v -> gg());
+        Button listen = findViewById(R.id.listen);
+        listen.setOnClickListener(v -> listen());
     }
 
     @Override
@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
         intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         registerReceiver(receiver, intentFilter);
 
-        VirtualApkCheckUtil.getSingleInstance().checkByPortListening(getPackageName());
     }
 
     @Override
@@ -86,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(receiver);
     }
 
-    private void gg() {
-
+    private void listen() {
+        VirtualApkCheckUtil.getSingleInstance().checkByPortListening(getPackageName());
     }
 
     BatteryChangeBroadCastReceiver receiver = new BatteryChangeBroadCastReceiver();

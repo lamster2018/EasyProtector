@@ -123,10 +123,10 @@
         android:minWidth="100dp" />
 
     <Button
-        android:id="@+id/test"
+        android:id="@+id/listen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="click me test" />
+        android:text="click me listen port" />
 
 </LinearLayout>
