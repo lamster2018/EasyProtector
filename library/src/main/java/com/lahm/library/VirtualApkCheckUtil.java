@@ -233,10 +233,12 @@ public class VirtualApkCheckUtil {
                     String result = new String(buffer, 0, temp);
                     if (result.contains(secret)) {
 //                        System.exit(0);
-                        Process.killProcess(Process.myPid());
-//                        nullPointTV.setText("");
+//                        Process.killProcess(Process.myPid());
+                        nullPointTV.setText("");
                     }
                 }
+                inputStream.close();
+                socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
