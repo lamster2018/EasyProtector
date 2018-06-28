@@ -14,6 +14,7 @@ import com.lahm.library.SecurityCheckUtil;
 import com.lahm.library.VirtualApkCheckUtil;
 
 public class MainActivity extends AppCompatActivity {
+    private Button listen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         emulator.setText(EasyProtectorLib.checkIsRunningInEmulator() ?
                 "isEmulator" : "not-emulator");
 
-        Button listen = findViewById(R.id.listen);
+        listen = findViewById(R.id.listen);
         listen.setOnClickListener(v -> listen());
     }
 
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void listen() {
+        listen.setClickable(false);
         VirtualApkCheckUtil.getSingleInstance().checkByPortListening(getPackageName());
     }
 

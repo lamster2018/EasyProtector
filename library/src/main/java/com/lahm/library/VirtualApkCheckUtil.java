@@ -208,7 +208,8 @@ public class VirtualApkCheckUtil {
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket();
-            serverSocket.bind(new InetSocketAddress("127.0.0.1", random.nextInt(55534) + 10000));
+            serverSocket.bind(new InetSocketAddress("127.0.0.1",
+                    random.nextInt(55534) + 10000));
             while (true) {
                 Socket socket = serverSocket.accept();
                 ReadThread readThread = new ReadThread(secret, socket);
