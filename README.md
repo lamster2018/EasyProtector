@@ -40,7 +40,7 @@ Or maven
 <dependency>
   <groupId>com.lahm.library</groupId>
   <artifactId>easy-protector-release</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.3</version>
   <type>pom</type>
 </dependency>
 ```
@@ -72,6 +72,9 @@ SecurityCheckUtil.class
 EmulatorCheckUtil.class
 
 VirtualApkCheckUtil.class
+
+AccessibilityServicesCheckUtil.class
+
 
 # Proguard
 
