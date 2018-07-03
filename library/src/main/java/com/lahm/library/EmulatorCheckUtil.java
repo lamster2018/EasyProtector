@@ -1,5 +1,7 @@
 package com.lahm.library;
 
+import android.text.TextUtils;
+
 /**
  * Project Name:EasyProtector
  * Package Name:com.lahm.library
@@ -33,24 +35,26 @@ public class EmulatorCheckUtil {
     public boolean readSysProperty() {
         int suspectCount = 0;
 
-        String basebandVersion = CommandUtil.getSingleInstance().getProperty("gsm.version.baseband");
-        if (basebandVersion == null | "".equals(basebandVersion)) ++suspectCount;
+        String baseBandVersion = CommandUtil.getSingleInstance().getProperty("gsm.version.baseband");
+        if (TextUtils.isEmpty(baseBandVersion)) ++suspectCount;
 
         String buildFlavor = CommandUtil.getSingleInstance().getProperty("ro.build.flavor");
-        if (buildFlavor == null | "".equals(buildFlavor) | (buildFlavor != null && buildFlavor.contains("vbox")))
+        if (TextUtils.isEmpty(buildFlavor) | (buildFlavor != null && buildFlavor.contains("vbox")))
             ++suspectCount;
 
         String productBoard = CommandUtil.getSingleInstance().getProperty("ro.product.board");
-        if (productBoard == null | "".equals(productBoard)) ++suspectCount;
+        if (TextUtils.isEmpty(productBoard)) ++suspectCount;
 
         String boardPlatform = CommandUtil.getSingleInstance().getProperty("ro.board.platform");
-        if (boardPlatform == null | "".equals(boardPlatform)) ++suspectCount;
+        if (TextUtils.isEmpty(boardPlatform)) ++suspectCount;
 
-        if (productBoard != null && boardPlatform != null && !productBoard.equals(boardPlatform))
+        if (!TextUtils.isEmpty(productBoard)
+                && !TextUtils.isEmpty(boardPlatform)
+                && !productBoard.equals(boardPlatform))
             ++suspectCount;
 
         String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
-        if (filter == null || filter.length() == 0) ++suspectCount;
+        if (TextUtils.isEmpty(filter)) ++suspectCount;
 
         return suspectCount > 2;
     }
