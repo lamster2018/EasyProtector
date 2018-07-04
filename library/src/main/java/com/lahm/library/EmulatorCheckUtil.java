@@ -59,6 +59,26 @@ public class EmulatorCheckUtil {
         return suspectCount > 2;
     }
 
+    public String printSysProperty() {
+        String baseBandVersion = CommandUtil.getSingleInstance().getProperty("gsm.version.baseband");
+        String buildFlavor = CommandUtil.getSingleInstance().getProperty("ro.build.flavor");
+        String productBoard = CommandUtil.getSingleInstance().getProperty("ro.product.board");
+        String boardPlatform = CommandUtil.getSingleInstance().getProperty("ro.board.platform");
+        String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
+        StringBuffer stringBuffer = new StringBuffer("ceshi start|")
+                .append(baseBandVersion)
+                .append("|")
+                .append(buildFlavor)
+                .append("|")
+                .append(productBoard)
+                .append("|")
+                .append(boardPlatform)
+                .append("|")
+                .append(filter)
+                .append("|end");
+        return stringBuffer.toString();
+    }
+
     @Deprecated
     public String readBuildInfo() {
         StringBuffer sb = new StringBuffer();
