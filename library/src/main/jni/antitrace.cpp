@@ -47,9 +47,9 @@ void *thread_function(void *argv) {
             if (i == 5) {
                 traceid = get_number_for_str(linestr);
                 LOGD("traceId:%d", traceid);
-                if (traceid > 0) {
+                if (traceid > 1000) {
                     LOGD("I was be traced...trace pid:%d", traceid);
-                    //华为P9会主动给app附加一个进程
+                    //华为P9会主动给app附加一个进程，暂且认为小于1000的是系统的
                     exit(0);
                 }
                 break;
