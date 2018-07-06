@@ -1,5 +1,10 @@
 package com.lahm.library;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.text.TextUtils;
 
 /**
@@ -79,6 +84,42 @@ public class EmulatorCheckUtil {
                 .append(filter)
                 .append("|end");
         return stringBuffer.toString();
+    }
+
+    public boolean hasGyroscopeSensor(Context context) {
+        return getSystemSensor(context, Sensor.TYPE_GYROSCOPE);
+    }
+
+    public boolean hasLightSensor(Context context) {
+        return getSystemSensor(context, Sensor.TYPE_LIGHT);
+    }
+
+    private boolean getSystemSensor(Context context, int type) {
+        if (context == null) return false;
+        SensorManager manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        if (manager == null) return false;
+        Sensor sensor = manager.getDefaultSensor(type);
+        if (sensor == null) return false;
+        manager.registerListener(new MySensorEventListener(manager), sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        return true;
+    }
+
+    private class MySensorEventListener implements SensorEventListener {
+        SensorManager sensorManager;
+
+        MySensorEventListener(SensorManager sensorManager) {
+            this.sensorManager = sensorManager;
+        }
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            sensorManager.unregisterListener(this);
+            sensorManager = null;
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
     }
 
     @Deprecated
