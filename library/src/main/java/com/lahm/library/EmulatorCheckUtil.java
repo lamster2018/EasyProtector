@@ -43,10 +43,12 @@ public class EmulatorCheckUtil {
             ++suspectCount;
 
         String productBoard = CommandUtil.getSingleInstance().getProperty("ro.product.board");
-        if (TextUtils.isEmpty(productBoard)) ++suspectCount;
+        if (TextUtils.isEmpty(productBoard) | (productBoard != null && productBoard.contains("android")))
+            ++suspectCount;
 
         String boardPlatform = CommandUtil.getSingleInstance().getProperty("ro.board.platform");
-        if (TextUtils.isEmpty(boardPlatform)) ++suspectCount;
+        if (TextUtils.isEmpty(boardPlatform) | (boardPlatform != null && boardPlatform.contains("android")))
+            ++suspectCount;
 
         if (!TextUtils.isEmpty(productBoard)
                 && !TextUtils.isEmpty(boardPlatform)
