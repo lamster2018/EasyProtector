@@ -183,6 +183,8 @@ public class VirtualApkCheckUtil {
     }
 
     public void checkByPortListening(String secret, CheckCallback callback) {
+        if (callback == null)
+            throw new IllegalArgumentException("you have to set a callback to deal with suspect");
         this.checkCallback = callback;
         startClient(secret);
         new ServerThread(secret).start();
@@ -234,7 +236,6 @@ public class VirtualApkCheckUtil {
                 while ((temp = inputStream.read(buffer)) != -1) {
                     String result = new String(buffer, 0, temp);
                     if (result.contains(secret)) {
-                        if (checkCallback == null) return;
                         checkCallback.findSuspect();
                         checkCallback = null;//当检测到同时有两个的时候，处理完回调后把callback置空
                     }
