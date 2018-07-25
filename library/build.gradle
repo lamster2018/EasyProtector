@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 103
-        versionName "1.0.3"
+        versionCode 104
+        versionName "1.0.4"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -40,7 +40,7 @@ publish {
     userOrg = 'lamster2018' //bintray注册的用户名（不是邮箱）
     groupId = 'com.lahm.library'
     artifactId = 'easy-protector-release' //项目名称
-    publishVersion = '1.0.3' //版本号
+    publishVersion = '1.0.4' //版本号
     desc = 'protect your android app' //项目描述。可空。
     website = 'https://github.com/lamster2018/EasyProtector' //项目地址，一般填github地址。可空。
 }
