@@ -168,7 +168,6 @@ public class SecurityCheckUtil {
             e.printStackTrace();
             return true;
         } catch (IllegalAccessException e) {
-            //实测debug跑到这里报异常
             e.printStackTrace();
             return true;
         } catch (ClassNotFoundException e) {
@@ -185,7 +184,6 @@ public class SecurityCheckUtil {
             e.printStackTrace();
             return true;
         } catch (IllegalAccessException e) {
-            //实测debug跑到这里报异常
             e.printStackTrace();
             return true;
         } catch (ClassNotFoundException e) {

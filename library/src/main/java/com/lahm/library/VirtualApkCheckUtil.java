@@ -237,7 +237,7 @@ public class VirtualApkCheckUtil {
                     String result = new String(buffer, 0, temp);
                     if (result.contains(secret)) {
                         checkCallback.findSuspect();
-                        checkCallback = null;//当检测到同时有两个的时候，处理完回调后把callback置空
+                        checkCallback = null;
                     }
                 }
                 inputStream.close();
