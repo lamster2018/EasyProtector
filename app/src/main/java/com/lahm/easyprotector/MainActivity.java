@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.lahm.library.EasyProtectorLib;
+import com.lahm.library.EmulatorCheckCallback;
+import com.lahm.library.EmulatorCheckUtil;
 import com.lahm.library.SecurityCheckUtil;
 import com.lahm.library.VirtualApkCheckUtil;
 
@@ -63,8 +65,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         TextView emulator = findViewById(R.id.emulator);
-        emulator.setText(EasyProtectorLib.checkIsRunningInEmulator() ?
-                "isEmulator" : "not-emulator");
+        emulator.setText(EmulatorCheckUtil.getSingleInstance().readSysProperty(new EmulatorCheckCallback() {
+            @Override
+            public void findEmulator(String emulatorInfo) {
+                System.out.println(emulatorInfo);
+            }
+        }) ? "isEmulator" : "not-emulator");
 
         Button emptyFunc = findViewById(R.id.emptyFunc);
         emptyFunc.setOnClickListener(v -> play());

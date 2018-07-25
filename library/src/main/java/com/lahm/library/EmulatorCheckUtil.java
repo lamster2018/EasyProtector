@@ -37,11 +37,19 @@ public class EmulatorCheckUtil {
         return filter == null || filter.length() == 0;
     }
 
+    private EmulatorCheckCallback emulatorCheckCallback;
+
     public boolean readSysProperty() {
+        return readSysProperty(null);
+    }
+
+    public boolean readSysProperty(EmulatorCheckCallback callback) {
+        this.emulatorCheckCallback = callback;
         int suspectCount = 0;
 
         String baseBandVersion = CommandUtil.getSingleInstance().getProperty("gsm.version.baseband");
-        if (TextUtils.isEmpty(baseBandVersion)) ++suspectCount;
+        if (TextUtils.isEmpty(baseBandVersion) | (baseBandVersion != null && baseBandVersion.contains("1.0.0.0")))
+            ++suspectCount;
 
         String buildFlavor = CommandUtil.getSingleInstance().getProperty("ro.build.flavor");
         if (TextUtils.isEmpty(buildFlavor) | (buildFlavor != null && buildFlavor.contains("vbox")))
@@ -63,27 +71,22 @@ public class EmulatorCheckUtil {
         String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
         if (TextUtils.isEmpty(filter)) ++suspectCount;
 
+        if (emulatorCheckCallback != null) {
+            StringBuffer stringBuffer = new StringBuffer("ceshi start|")
+                    .append(baseBandVersion)
+                    .append("|")
+                    .append(buildFlavor)
+                    .append("|")
+                    .append(productBoard)
+                    .append("|")
+                    .append(boardPlatform)
+                    .append("|")
+                    .append(filter)
+                    .append("|end");
+            emulatorCheckCallback.findEmulator(stringBuffer.toString());
+            emulatorCheckCallback = null;
+        }
         return suspectCount > 2;
-    }
-
-    public String printSysProperty() {
-        String baseBandVersion = CommandUtil.getSingleInstance().getProperty("gsm.version.baseband");
-        String buildFlavor = CommandUtil.getSingleInstance().getProperty("ro.build.flavor");
-        String productBoard = CommandUtil.getSingleInstance().getProperty("ro.product.board");
-        String boardPlatform = CommandUtil.getSingleInstance().getProperty("ro.board.platform");
-        String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
-        StringBuffer stringBuffer = new StringBuffer("ceshi start|")
-                .append(baseBandVersion)
-                .append("|")
-                .append(buildFlavor)
-                .append("|")
-                .append(productBoard)
-                .append("|")
-                .append(boardPlatform)
-                .append("|")
-                .append(filter)
-                .append("|end");
-        return stringBuffer.toString();
     }
 
     public boolean hasGyroscopeSensor(Context context) {
