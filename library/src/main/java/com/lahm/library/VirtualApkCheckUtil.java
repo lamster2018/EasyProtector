@@ -4,10 +4,8 @@ package com.lahm.library;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Process;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -184,7 +182,8 @@ public class VirtualApkCheckUtil {
         return true;
     }
 
-    public void checkByPortListening(String secret) {
+    public void checkByPortListening(String secret, CheckCallback callback) {
+        this.checkCallback = callback;
         startClient(secret);
         new ServerThread(secret).start();
     }
@@ -223,6 +222,8 @@ public class VirtualApkCheckUtil {
         }
     }
 
+    private CheckCallback checkCallback;
+
     private class ReadThread extends Thread {
         private ReadThread(String secret, Socket socket) {
             InputStream inputStream = null;
@@ -233,9 +234,9 @@ public class VirtualApkCheckUtil {
                 while ((temp = inputStream.read(buffer)) != -1) {
                     String result = new String(buffer, 0, temp);
                     if (result.contains(secret)) {
-//                        System.exit(0);
-//                        Process.killProcess(Process.myPid());
-                        nullPointTV.setText("");
+                        if (checkCallback == null) return;
+                        checkCallback.findSuspect();
+                        checkCallback = null;//当检测到同时有两个的时候，处理完回调后把callback置空
                     }
                 }
                 inputStream.close();
@@ -245,8 +246,6 @@ public class VirtualApkCheckUtil {
             }
         }
     }
-
-    private TextView nullPointTV;
 
     private void startClient(String secret) {
         String tcp6 = CommandUtil.getSingleInstance().exec("cat /proc/net/tcp6");
