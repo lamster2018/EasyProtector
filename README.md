@@ -40,7 +40,7 @@ Or maven
 <dependency>
   <groupId>com.lahm.library</groupId>
   <artifactId>easy-protector-release</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <type>pom</type>
 </dependency>
 ```
