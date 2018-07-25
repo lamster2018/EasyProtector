@@ -182,7 +182,7 @@ public class VirtualApkCheckUtil {
         return true;
     }
 
-    public void checkByPortListening(String secret, CheckCallback callback) {
+    public void checkByPortListening(String secret, VirtualCheckCallback callback) {
         if (callback == null)
             throw new IllegalArgumentException("you have to set a callback to deal with suspect");
         this.checkCallback = callback;
@@ -224,7 +224,7 @@ public class VirtualApkCheckUtil {
         }
     }
 
-    private CheckCallback checkCallback;
+    private VirtualCheckCallback checkCallback;
 
     private class ReadThread extends Thread {
         private ReadThread(String secret, Socket socket) {

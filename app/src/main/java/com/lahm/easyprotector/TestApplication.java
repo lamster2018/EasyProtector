@@ -2,7 +2,7 @@ package com.lahm.easyprotector;
 
 import android.app.Application;
 
-import com.lahm.library.CheckCallback;
+import com.lahm.library.VirtualCheckCallback;
 import com.lahm.library.EasyProtectorLib;
 import com.lahm.library.VirtualApkCheckUtil;
 
@@ -17,7 +17,7 @@ public class TestApplication extends Application {
         super.onCreate();
         //AS模拟器的端口检测法会有问题，会抢localhost，所以这里加了个判断，平时真机可以直接调用端口检测
         if (!EasyProtectorLib.checkIsRunningInEmulator())
-            VirtualApkCheckUtil.getSingleInstance().checkByPortListening(getPackageName(), new CheckCallback() {
+            VirtualApkCheckUtil.getSingleInstance().checkByPortListening(getPackageName(), new VirtualCheckCallback() {
                 @Override
                 public void findSuspect() {
                     System.out.println("ceshi----");
