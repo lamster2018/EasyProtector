@@ -2,6 +2,9 @@
 
 EasyProtector，a simple way to check root/virtual app/emulator/xposed framework/tracer/debugger.
 
+很多朋友是通过[郭霖老师的公众号推送](https://mp.weixin.qq.com/s/XvqUc3drJhdJ9hOuCcfdkg) 或者[陈宇明老师的公众号推送](https://mp.weixin.qq.com/s/7I_vGV77TWqhQR9Myc5FQg)了解到这个库的。
+
+既然来都来了，欢迎大家star/fork,哪怕提个issue都好，我希望这是一个好用的库（省去application的初始化操作，避免更多的权限要求，尽可能的懒加载）
 
 # Document
 
