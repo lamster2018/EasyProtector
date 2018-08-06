@@ -52,15 +52,21 @@ public class EmulatorCheckUtil {
             ++suspectCount;
 
         String buildFlavor = CommandUtil.getSingleInstance().getProperty("ro.build.flavor");
-        if (TextUtils.isEmpty(buildFlavor) | (buildFlavor != null && buildFlavor.contains("vbox")))
+        if (TextUtils.isEmpty(buildFlavor))
+            ++suspectCount;
+        else if (buildFlavor.contains("vbox") | buildFlavor.contains("sdk_gphone"))
             ++suspectCount;
 
         String productBoard = CommandUtil.getSingleInstance().getProperty("ro.product.board");
-        if (TextUtils.isEmpty(productBoard) | (productBoard != null && productBoard.contains("android")))
+        if (TextUtils.isEmpty(productBoard))
+            ++suspectCount;
+        else if (productBoard.contains("android") | productBoard.contains("goldfish"))
             ++suspectCount;
 
         String boardPlatform = CommandUtil.getSingleInstance().getProperty("ro.board.platform");
-        if (TextUtils.isEmpty(boardPlatform) | (boardPlatform != null && boardPlatform.contains("android")))
+        if (TextUtils.isEmpty(boardPlatform))
+            ++suspectCount;
+        else if (boardPlatform.contains("android"))
             ++suspectCount;
 
         if (!TextUtils.isEmpty(productBoard)
