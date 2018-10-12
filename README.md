@@ -103,3 +103,11 @@ no need
 
 
 ![demo](https://upload-images.jianshu.io/upload_images/2554175-7ee67add271a2035.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+自2018-6-13集成并上线自己的项目里，至10-12已经收集了9w+疑似模拟器的检测数据，精确性在低版本机器上不太理想，甚至有些厂商的cpu配置信息乱来。
+如果各位需要在业务里做很细致的模拟器鉴别，还需要再加一些检查条目增加判断的精确性。
+
+
+
+# License
+Apache 2.0. See the [LICENSE](https://github.com/lamster2018/EasyProtector/blob/master/LICENSE) file for details.
