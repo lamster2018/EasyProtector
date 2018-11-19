@@ -49,8 +49,8 @@
         android:id="@+id/root"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="20dp"
-        android:minWidth="100dp" />
+        android:minWidth="100dp"
+        android:minHeight="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -62,8 +62,8 @@
         android:id="@+id/debug"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="20dp"
-        android:minWidth="100dp" />
+        android:minWidth="100dp"
+        android:minHeight="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -75,8 +75,8 @@
         android:id="@+id/xp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="20dp"
-        android:minWidth="100dp" />
+        android:minWidth="100dp"
+        android:minHeight="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -88,8 +88,8 @@
         android:id="@+id/usb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="20dp"
-        android:minWidth="100dp" />
+        android:minWidth="100dp"
+        android:minHeight="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -101,8 +101,8 @@
         android:id="@+id/traced"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="20dp"
-        android:minWidth="100dp" />
+        android:minWidth="100dp"
+        android:minHeight="20dp" />
 
     <Button
         android:id="@+id/loadSO"
@@ -119,14 +119,29 @@
         android:id="@+id/emulator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="20dp"
-        android:minWidth="100dp" />
+        android:minWidth="100dp"
+        android:minHeight="20dp" />
 
-    <Button
-        android:id="@+id/emptyFunc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="emptyFunc" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:hint="input property name" />
+
+        <Button
+            android:id="@+id/output"
+            android:layout_width="0dp"
+            android:text="click me get result"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+    </LinearLayout>
+
 
 </LinearLayout>

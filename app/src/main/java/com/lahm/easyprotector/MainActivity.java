@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.lahm.library.CommandUtil;
 import com.lahm.library.EasyProtectorLib;
 import com.lahm.library.EmulatorCheckCallback;
 import com.lahm.library.EmulatorCheckUtil;
@@ -16,6 +19,8 @@ import com.lahm.library.SecurityCheckUtil;
 import com.lahm.library.VirtualApkCheckUtil;
 
 public class MainActivity extends AppCompatActivity {
+    EditText input;
+    Button output;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +77,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }) ? "isEmulator" : "not-emulator");
 
-        Button emptyFunc = findViewById(R.id.emptyFunc);
-        emptyFunc.setOnClickListener(v -> play());
+        input = findViewById(R.id.input);
+        output = findViewById(R.id.output);
+        output.setOnClickListener(v -> findPropertyName(input.getText().toString()));
     }
 
     @Override
@@ -91,8 +97,14 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(receiver);
     }
 
-    private void play() {
 
+    private void findPropertyName(String propName) {
+        if (TextUtils.isEmpty(propName)) {
+            output.setText("property name cannot be null");
+            return;
+        } else {
+            output.setText(CommandUtil.getSingleInstance().getProperty(propName));
+        }
     }
 
     BatteryChangeBroadCastReceiver receiver = new BatteryChangeBroadCastReceiver();
