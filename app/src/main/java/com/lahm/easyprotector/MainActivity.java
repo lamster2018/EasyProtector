@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         TextView emulator = findViewById(R.id.emulator);
-        emulator.setText(EmulatorCheckUtil.getSingleInstance().readSysProperty(new EmulatorCheckCallback() {
+        emulator.setText(EmulatorCheckUtil.getSingleInstance().readSysProperty(this, new EmulatorCheckCallback() {
             @Override
             public void findEmulator(String emulatorInfo) {
                 System.out.println(emulatorInfo);

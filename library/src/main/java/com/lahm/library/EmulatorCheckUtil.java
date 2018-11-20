@@ -1,10 +1,6 @@
 package com.lahm.library;
 
 import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.text.TextUtils;
 
 /**
@@ -25,130 +21,73 @@ public class EmulatorCheckUtil {
         return SingletonHolder.INSTANCE;
     }
 
-    //逍遥安卓模拟器能模拟cpu信息
-    public String readCpuInfo() {
-        String result = CommandUtil.getSingleInstance().exec("cat /proc/cpuinfo");
-        return result;
-    }
-
-    //逍遥安卓模拟器读取不到该文件
-    public boolean readUidInfo() {
-        String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
-        return filter == null || filter.length() == 0;
-    }
-
     private EmulatorCheckCallback emulatorCheckCallback;
 
     public boolean readSysProperty() {
-        return readSysProperty(null);
+        return readSysProperty(null, null);
     }
 
-    public boolean readSysProperty(EmulatorCheckCallback callback) {
+    public boolean readSysProperty(Context context, EmulatorCheckCallback callback) {
         this.emulatorCheckCallback = callback;
         int suspectCount = 0;
 
-        String baseBandVersion = CommandUtil.getSingleInstance().getProperty("gsm.version.baseband");
-        if (TextUtils.isEmpty(baseBandVersion) | (baseBandVersion != null && baseBandVersion.contains("1.0.0.0")))
+        String baseBandVersion = getProperty("gsm.version.baseband");
+        if (null == baseBandVersion || baseBandVersion.contains("1.0.0.0"))
             ++suspectCount;
 
-        String buildFlavor = CommandUtil.getSingleInstance().getProperty("ro.build.flavor");
-        if (TextUtils.isEmpty(buildFlavor))
-            ++suspectCount;
-        else if (buildFlavor.contains("vbox") | buildFlavor.contains("sdk_gphone"))
+        String buildFlavor = getProperty("ro.build.flavor");
+        if (null == buildFlavor || buildFlavor.contains("vbox") || buildFlavor.contains("sdk_gphone"))
             ++suspectCount;
 
-        String productBoard = CommandUtil.getSingleInstance().getProperty("ro.product.board");
-        if (TextUtils.isEmpty(productBoard))
-            ++suspectCount;
-        else if (productBoard.contains("android") | productBoard.contains("goldfish"))
+        String productBoard = getProperty("ro.product.board");
+        if (null == productBoard || productBoard.contains("android") | productBoard.contains("goldfish"))
             ++suspectCount;
 
-        String boardPlatform = CommandUtil.getSingleInstance().getProperty("ro.board.platform");
-        if (TextUtils.isEmpty(boardPlatform))
-            ++suspectCount;
-        else if (boardPlatform.contains("android"))
+        String boardPlatform = getProperty("ro.board.platform");
+        if (null == boardPlatform || boardPlatform.contains("android"))
             ++suspectCount;
 
-        if (!TextUtils.isEmpty(productBoard)
-                && !TextUtils.isEmpty(boardPlatform)
-                && !productBoard.equals(boardPlatform))
-            ++suspectCount;
+        String hardWare = getProperty("ro.hardware");
+        if (null == hardWare) ++suspectCount;
+        else if (hardWare.toLowerCase().equals("ttvm")) suspectCount += 10;
+
+        String cameraFlash = "";
+        if (context != null) {
+            boolean isSupportCameraFlash = context.getPackageManager().hasSystemFeature("android.hardware.camera.flash");
+            if (!isSupportCameraFlash) ++suspectCount;
+            cameraFlash = isSupportCameraFlash ? "support CameraFlash" : "unsupport CameraFlash";
+        }
+
+        String userApps = CommandUtil.getSingleInstance().exec("pm list package -3");
+        int userAppNums = getUserAppNums(userApps);
+        if (userAppNums < 5) ++suspectCount;
 
         String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
-        if (TextUtils.isEmpty(filter)) ++suspectCount;
+        if (null == filter) ++suspectCount;
 
         if (emulatorCheckCallback != null) {
             StringBuffer stringBuffer = new StringBuffer("ceshi start|")
-                    .append(baseBandVersion)
-                    .append("|")
-                    .append(buildFlavor)
-                    .append("|")
-                    .append(productBoard)
-                    .append("|")
-                    .append(boardPlatform)
-                    .append("|")
-                    .append(filter)
-                    .append("|end");
+                    .append(baseBandVersion).append("|")
+                    .append(buildFlavor).append("|")
+                    .append(productBoard).append("|")
+                    .append(boardPlatform).append("|")
+                    .append(hardWare).append("|")
+                    .append(cameraFlash).append("|")
+                    .append(userAppNums).append("|")
+                    .append(filter).append("|end");
             emulatorCheckCallback.findEmulator(stringBuffer.toString());
             emulatorCheckCallback = null;
         }
-        return suspectCount > 2;
+        return suspectCount > 3;
     }
 
-    public boolean hasGyroscopeSensor(Context context) {
-        return getSystemSensor(context, Sensor.TYPE_GYROSCOPE);
+    private int getUserAppNums(String userApps) {
+        String[] result = userApps.split("package:");
+        return result.length;
     }
 
-    public boolean hasLightSensor(Context context) {
-        return getSystemSensor(context, Sensor.TYPE_LIGHT);
-    }
-
-    private boolean getSystemSensor(Context context, int type) {
-        if (context == null) return false;
-        SensorManager manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        if (manager == null) return false;
-        Sensor sensor = manager.getDefaultSensor(type);
-        if (sensor == null) return false;
-        manager.registerListener(new MySensorEventListener(manager), sensor, SensorManager.SENSOR_DELAY_NORMAL);
-        return true;
-    }
-
-    private class MySensorEventListener implements SensorEventListener {
-        SensorManager sensorManager;
-
-        MySensorEventListener(SensorManager sensorManager) {
-            this.sensorManager = sensorManager;
-        }
-
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            sensorManager.unregisterListener(this);
-            sensorManager = null;
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        }
-    }
-
-    @Deprecated
-    public String readBuildInfo() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("-\n")
-                .append("BOARD-")
-                .append(android.os.Build.BOARD)
-                .append("\nBOOTLOADER-")
-                .append(android.os.Build.BOOTLOADER)
-                .append("\nBRAND-")
-                .append(android.os.Build.BRAND)
-                .append("\nDEVICE-")
-                .append(android.os.Build.DEVICE)
-                .append("\nHARDWARE-")
-                .append(android.os.Build.HARDWARE)
-                .append("\nMODEL-")
-                .append(android.os.Build.MODEL)
-                .append("\nPRODUCT-")
-                .append(android.os.Build.PRODUCT);
-        return sb.toString();
+    private String getProperty(String propName) {
+        String property = CommandUtil.getSingleInstance().getProperty(propName);
+        return TextUtils.isEmpty(property) ? null : property;
     }
 }
