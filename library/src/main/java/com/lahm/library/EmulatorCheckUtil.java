@@ -49,7 +49,7 @@ public class EmulatorCheckUtil {
 
         String hardWare = getProperty("ro.hardware");
         if (null == hardWare) ++suspectCount;
-        else if (hardWare.toLowerCase().equals("ttvm")) suspectCount += 10;
+        else if (hardWare.toLowerCase().contains("ttvm")) suspectCount += 10;
 
         String cameraFlash = "";
         if (context != null) {
