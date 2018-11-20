@@ -1,6 +1,8 @@
 package com.lahm.library;
 
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.text.TextUtils;
 
 /**
@@ -50,12 +52,19 @@ public class EmulatorCheckUtil {
         String hardWare = getProperty("ro.hardware");
         if (null == hardWare) ++suspectCount;
         else if (hardWare.toLowerCase().contains("ttvm")) suspectCount += 10;
+        else if (hardWare.toLowerCase().contains("nox")) suspectCount += 10;
 
         String cameraFlash = "";
+        String sensorNum = "sensorNum";
         if (context != null) {
             boolean isSupportCameraFlash = context.getPackageManager().hasSystemFeature("android.hardware.camera.flash");
             if (!isSupportCameraFlash) ++suspectCount;
             cameraFlash = isSupportCameraFlash ? "support CameraFlash" : "unsupport CameraFlash";
+
+            SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+            int sensorSize = sm.getSensorList(Sensor.TYPE_ALL).size();
+            if (sensorSize < 7) ++suspectCount;
+            sensorNum = sensorNum + sensorSize;
         }
 
         String userApps = CommandUtil.getSingleInstance().exec("pm list package -3");
@@ -73,6 +82,7 @@ public class EmulatorCheckUtil {
                     .append(boardPlatform).append("|")
                     .append(hardWare).append("|")
                     .append(cameraFlash).append("|")
+                    .append(sensorNum).append("|")
                     .append(userAppNums).append("|")
                     .append(filter).append("|end");
             emulatorCheckCallback.findEmulator(stringBuffer.toString());
