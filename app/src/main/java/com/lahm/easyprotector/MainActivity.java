@@ -20,7 +20,8 @@ import com.lahm.library.VirtualApkCheckUtil;
 
 public class MainActivity extends AppCompatActivity {
     EditText input;
-    Button output;
+    Button output, clickEmulatorDetect;
+    TextView emulator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +30,20 @@ public class MainActivity extends AppCompatActivity {
 
         TextView one = findViewById(R.id.one);
         one.setText(VirtualApkCheckUtil.getSingleInstance().checkByPrivateFilePath(this) ?
-                "私有路径检测有多开" : "私有路径检测正常");
+                "privatePath-NO" : "privatePath-OK");
         TextView two = findViewById(R.id.two);
         two.setText(VirtualApkCheckUtil.getSingleInstance().checkByOriginApkPackageName(this) ?
-                "包名检测有多开" : "包名检测正常");
+                "packageName-NO" : "packageName-OK");
         TextView three = findViewById(R.id.three);
         three.setText(VirtualApkCheckUtil.getSingleInstance().checkByMultiApkPackageName() ?
-                "maps检测有多开" : "maps检测正常");
+                "maps-NO" : "maps-OK");
         TextView four = findViewById(R.id.four);
         four.setText(EasyProtectorLib.checkIsUsingMultiVirtualApp() ?
-                "ps检测有多开" : "ps检测正常");
+                "process-NO" : "process-OK");
 
         TextView root = findViewById(R.id.root);
         root.setText(EasyProtectorLib.checkIsRoot() ?
-                "有root权限" : "无root权限或root不成功");
+                "root" : "no-root");
 
         TextView debug = findViewById(R.id.debug);
         debug.setText(SecurityCheckUtil.getSingleInstance().checkIsDebugVersion(this) ?
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         TextView xp = findViewById(R.id.xp);
         xp.setText(EasyProtectorLib.checkIsXposedExist() ?
                 (EasyProtectorLib.checkXposedExistAndDisableIt() ?
-                        "有xp框架但关闭成功" : "有xp框架但关闭失败")
-                : "无xp框架");
+                        "has xp but closed" : "has xp but not close")
+                : "no-xp");
 
         usb = findViewById(R.id.usb);
         usb.setText(SecurityCheckUtil.getSingleInstance().checkIsDebuggerConnected() ?
@@ -69,17 +70,23 @@ public class MainActivity extends AppCompatActivity {
             loadSO.setClickable(false);
         });
 
-        TextView emulator = findViewById(R.id.emulator);
-        emulator.setText(EmulatorCheckUtil.getSingleInstance().readSysProperty(this, new EmulatorCheckCallback() {
-            @Override
-            public void findEmulator(String emulatorInfo) {
-                System.out.println(emulatorInfo);
-            }
-        }) ? "isEmulator" : "not-emulator");
+        emulator = findViewById(R.id.emulator);
+        emulator.setText(EmulatorCheckUtil.getSingleInstance().readSysProperty(this, null) ? "isEmulator" : "not-emulator");
+        clickEmulatorDetect = findViewById(R.id.clickEmulatorDetect);
+        clickEmulatorDetect.setOnClickListener(v -> detecting());
 
         input = findViewById(R.id.input);
         output = findViewById(R.id.output);
         output.setOnClickListener(v -> findPropertyName(input.getText().toString()));
+    }
+
+    private void detecting() {
+        EmulatorCheckUtil.getSingleInstance().readSysProperty(this, new EmulatorCheckCallback() {
+            @Override
+            public void findEmulator(String emulatorInfo) {
+                emulator.setText(emulatorInfo);
+            }
+        });
     }
 
     @Override

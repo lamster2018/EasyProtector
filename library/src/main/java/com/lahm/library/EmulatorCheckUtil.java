@@ -68,8 +68,10 @@ public class EmulatorCheckUtil {
         }
 
         String userApps = CommandUtil.getSingleInstance().exec("pm list package -3");
-        int userAppNums = getUserAppNums(userApps);
-        if (userAppNums < 5) ++suspectCount;
+        String userAppNum = "userAppNum";
+        int userAppSize = getUserAppNums(userApps);
+        if (userAppSize < 5) ++suspectCount;
+        userAppNum = userAppNum + userAppSize;
 
         String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
         if (null == filter) ++suspectCount;
@@ -83,7 +85,7 @@ public class EmulatorCheckUtil {
                     .append(hardWare).append("|")
                     .append(cameraFlash).append("|")
                     .append(sensorNum).append("|")
-                    .append(userAppNums).append("|")
+                    .append(userAppNum).append("|")
                     .append(filter).append("|end");
             emulatorCheckCallback.findEmulator(stringBuffer.toString());
             emulatorCheckCallback = null;

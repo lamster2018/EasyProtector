@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="多开检测" />
+        android:text="multiAppDetecting" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="root检测" />
+        android:text="root detecting" />
 
     <TextView
         android:id="@+id/root"
@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="版本检测" />
+        android:text="version detecting" />
 
     <TextView
         android:id="@+id/debug"
@@ -69,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="xp框架检测" />
+        android:text="xpFrameWorkDetecting" />
 
     <TextView
         android:id="@+id/xp"
@@ -82,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="usb接口检测" />
+        android:text="usb port detecting" />
 
     <TextView
         android:id="@+id/usb"
@@ -95,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="调试检测" />
+        android:text="debug detecting" />
 
     <TextView
         android:id="@+id/traced"
@@ -110,10 +110,11 @@
         android:layout_height="wrap_content"
         android:text="click me load so" />
 
-    <TextView
+    <Button
+        android:id="@+id/clickEmulatorDetect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="虚拟机检测" />
+        android:text="click me emulator info" />
 
     <TextView
         android:id="@+id/emulator"
@@ -138,9 +139,9 @@
         <Button
             android:id="@+id/output"
             android:layout_width="0dp"
-            android:text="click me get result"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:text="click me get result" />
     </LinearLayout>
 
 
