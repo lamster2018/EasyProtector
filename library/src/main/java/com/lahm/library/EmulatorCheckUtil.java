@@ -25,6 +25,7 @@ public class EmulatorCheckUtil {
 
     private EmulatorCheckCallback emulatorCheckCallback;
 
+    @Deprecated
     public boolean readSysProperty() {
         return readSysProperty(null, null);
     }

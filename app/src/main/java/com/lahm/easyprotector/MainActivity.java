@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         emulator = findViewById(R.id.emulator);
-        emulator.setText(EmulatorCheckUtil.getSingleInstance().readSysProperty(this, null) ? "isEmulator" : "not-emulator");
+        emulator.setText(EasyProtectorLib.checkIsRunningInEmulator(this) ? "isEmulator" : "not-emulator");
         clickEmulatorDetect = findViewById(R.id.clickEmulatorDetect);
         clickEmulatorDetect.setOnClickListener(v -> detecting());
 

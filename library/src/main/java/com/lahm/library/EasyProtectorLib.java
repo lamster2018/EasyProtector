@@ -61,4 +61,8 @@ public class EasyProtectorLib {
     public static boolean checkIsRunningInEmulator() {
         return EmulatorCheckUtil.getSingleInstance().readSysProperty();
     }
+
+    public static boolean checkIsRunningInEmulator(Context context) {
+        return EmulatorCheckUtil.getSingleInstance().readSysProperty(context, null);
+    }
 }
