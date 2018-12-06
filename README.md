@@ -102,14 +102,12 @@ no need
 | OnePlus 5T | Android 8.1 | H2OS 5.1 stable |
 
 
-![demo capture](https://upload-images.jianshu.io/upload_images/2554175-4fe7325ab886bd7f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
 
 # License
 Apache 2.0. See the [LICENSE](https://github.com/lamster2018/EasyProtector/blob/master/LICENSE) file for details.
 
 
-#About Emulator Detecting
+# About Emulator Detecting
 
 |   机器/测试方案   | 检测结果 |
 | :---------------: | -------- |
@@ -128,3 +126,5 @@ Apache 2.0. See the [LICENSE](https://github.com/lamster2018/EasyProtector/blob/
 如果各位需要在业务里做非常细致的模拟器鉴别，可以在自行增加判断条件。
 
 各位老铁提有关xx模拟器检测不出的issue的时候，请尽量附上emulatorInfo信息哈，我的demo里专门给你们打印了，这样方便调试。
+
+![demo capture](https://upload-images.jianshu.io/upload_images/2554175-4fe7325ab886bd7f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
