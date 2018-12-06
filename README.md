@@ -43,7 +43,7 @@ Or maven
 <dependency>
   <groupId>com.lahm.library</groupId>
   <artifactId>easy-protector-release</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <type>pom</type>
 </dependency>
 ```
@@ -102,12 +102,29 @@ no need
 | OnePlus 5T | Android 8.1 | H2OS 5.1 stable |
 
 
-![demo](https://upload-images.jianshu.io/upload_images/2554175-7ee67add271a2035.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-自2018-6-13集成并上线自己的项目里，至10-12已经收集了9w+疑似模拟器的检测数据，精确性在低版本机器上不太理想，甚至有些厂商的cpu配置信息乱来。
-如果各位需要在业务里做很细致的模拟器鉴别，还需要再加一些检查条目增加判断的精确性。
-
+![demo capture](https://upload-images.jianshu.io/upload_images/2554175-4fe7325ab886bd7f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 # License
 Apache 2.0. See the [LICENSE](https://github.com/lamster2018/EasyProtector/blob/master/LICENSE) file for details.
+
+
+#About Emulator Detecting
+
+|   机器/测试方案   | 检测结果 |
+| :---------------: | -------- |
+|   AS自带模拟器 9.0   |      模拟器     |
+| Genymotion2.12.1  |     模拟器       |
+|  逍遥模拟器6.0.0  |       模拟器      |
+|     Appetize      |      模拟器     |
+|  夜神模拟器6.2.5.3010  |     模拟器     |
+| 腾讯手游助手2.0.6.8 |      模拟器      |
+|  雷电模拟器3.41   |     模拟器       |
+|  木木模拟器2.0.25   |     模拟器       |
+|      一加5T       |       真机     |
+|      华为P9       |      真机     |
+
+自2018/6/13集成并上线自己的项目里，至10/24已经收集了11w+疑似模拟器的检测数据，
+如果各位需要在业务里做非常细致的模拟器鉴别，可以在自行增加判断条件。
+
+各位老铁提有关xx模拟器检测不出的issue的时候，请尽量附上emulatorInfo信息哈，我的demo里专门给你们打印了，这样方便调试。
