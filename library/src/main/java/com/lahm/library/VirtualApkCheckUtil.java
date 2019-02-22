@@ -4,6 +4,7 @@ package com.lahm.library;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.LocalServerSocket;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -50,6 +51,25 @@ public class VirtualApkCheckUtil {
         return singleInstance;
     }
 
+    /**
+     * 维护一份市面多开应用的包名列表
+     */
+    private String[] virtualPkgs = {
+            "com.bly.dkplat",//多开分身本身的包名
+//            "dkplugin.pke.nnp",//多开分身克隆应用的包名会随机变换
+//            "com.by.chaos",//chaos引擎
+            "com.lbe.parallel",//平行空间
+            "com.excelliance.dualaid",//双开助手
+            "com.lody.virtual",//VirtualXposed，VirtualApp
+            "com.qihoo.magic"//360分身大师
+    };
+
+    /**
+     * 通过检测app私有目录，多开后的应用路径会包含多开软件的包名
+     *
+     * @param context
+     * @return
+     */
     public boolean checkByPrivateFilePath(Context context) {
         String path = context.getFilesDir().getPath();
         for (String virtualPkg : virtualPkgs) {
@@ -58,6 +78,13 @@ public class VirtualApkCheckUtil {
         return false;
     }
 
+    /**
+     * 检测原始的包名，多开应用会hook处理getPackageName方法
+     * 顺着这个思路，如果在应用列表里出现了同样的包，那么认为该应用被多开了
+     *
+     * @param context
+     * @return
+     */
     public boolean checkByOriginApkPackageName(Context context) {
         try {
             if (context == null) {
@@ -78,15 +105,12 @@ public class VirtualApkCheckUtil {
         return false;
     }
 
-    // 多开App包名列表
-    private String[] virtualPkgs = {
-            "com.bly.dkplat",//多开分身
-            "com.lbe.parallel",//平行空间
-            "com.excelliance.dualaid",//双开助手
-            "com.lody.virtual",//VirtualXposed，VirtualApp
-            "com.qihoo.magic"//360分身大师
-    };
-
+    /**
+     * 运行被克隆的应用，该应用会加载多开应用的so库
+     * 检测已经加载的so里是否包含这些应用的包名
+     *
+     * @return
+     */
     public boolean checkByMultiApkPackageName() {
         BufferedReader bufr = null;
         try {
@@ -113,6 +137,12 @@ public class VirtualApkCheckUtil {
         return false;
     }
 
+    /**
+     * Android系统一个app一个uid
+     * 如果同一uid下有两个进程对应的包名，在"/data/data"下有两个私有目录，则该应用被多开了
+     *
+     * @return
+     */
     public boolean checkByHasSameUid() {
         String filter = getUidStrFormat();
         if (TextUtils.isEmpty(filter)) return false;
@@ -182,6 +212,15 @@ public class VirtualApkCheckUtil {
         return true;
     }
 
+    /**
+     * 端口监听，先扫一遍已开启的端口并连接，
+     * 如果发现能通信且通信信息一致，
+     * 则认为之前有一个相同的自己打开了（也就是被多开了）
+     * 如果没有，则开启监听
+     *
+     * @param secret
+     * @param callback
+     */
     public void checkByPortListening(String secret, VirtualCheckCallback callback) {
         if (callback == null)
             throw new IllegalArgumentException("you have to set a callback to deal with suspect");
@@ -309,4 +348,23 @@ public class VirtualApkCheckUtil {
             }
         }
     }
+
+    /**
+     * 如issue25讨论
+     * https://github.com/lamster2018/EasyProtector/issues/25
+     * 感谢https://github.com/wangkunlin提供
+     *
+     * @param urMsg
+     * @param callback
+     */
+    public void checkByCreateLocalServerSocket(String urMsg, VirtualCheckCallback callback) {
+        try {
+            if (callback == null) throw new NullPointerException();
+            LocalServerSocket localServerSocket = new LocalServerSocket(urMsg);
+        } catch (IOException e) {
+            callback.findSuspect();
+            e.printStackTrace();
+        }
+    }
+
 }
