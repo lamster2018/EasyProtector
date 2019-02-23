@@ -1,6 +1,7 @@
 package com.lahm.library;
 
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -354,17 +355,35 @@ public class VirtualApkCheckUtil {
      * https://github.com/lamster2018/EasyProtector/issues/25
      * 感谢https://github.com/wangkunlin提供
      *
-     * @param urMsg
+     * @param uniqueMsg
      * @param callback
      */
-    public void checkByCreateLocalServerSocket(String urMsg, VirtualCheckCallback callback) {
+    private LocalServerSocket localServerSocket;
+
+    public void checkByCreateLocalServerSocket(String uniqueMsg, VirtualCheckCallback callback) {
+        if (localServerSocket != null) return;
         try {
             if (callback == null) throw new NullPointerException();
-            LocalServerSocket localServerSocket = new LocalServerSocket(urMsg);
+            localServerSocket = new LocalServerSocket(uniqueMsg);
         } catch (IOException e) {
             callback.findSuspect();
             e.printStackTrace();
         }
     }
 
+    /**
+     * TopActivity的检查顶层task的方法
+     * https://github.com/109021017/android-TopActivity
+     */
+    private String checkByTopTask(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> rtis = am.getRunningTasks(1);
+        return rtis.get(0).topActivity.getPackageName();
+    }
+
+    private String checkByTopActivity(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> rtis = am.getRunningTasks(1);
+        return rtis.get(0).topActivity.getClassName();
+    }
 }

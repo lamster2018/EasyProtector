@@ -65,4 +65,8 @@ public class EasyProtectorLib {
     public static boolean checkIsRunningInEmulator(Context context) {
         return EmulatorCheckUtil.getSingleInstance().readSysProperty(context, null);
     }
+
+    public static void checkByCreateLocalServerSocket(String uniqueMsg, VirtualCheckCallback callback) {
+        VirtualApkCheckUtil.getSingleInstance().checkByCreateLocalServerSocket(uniqueMsg, callback);
+    }
 }
