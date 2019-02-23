@@ -277,7 +277,6 @@ public class VirtualApkCheckUtil {
                     String result = new String(buffer, 0, temp);
                     if (result.contains(secret)) {
                         checkCallback.findSuspect();
-                        checkCallback = null;
                     }
                 }
                 inputStream.close();
