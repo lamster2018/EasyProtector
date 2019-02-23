@@ -218,10 +218,12 @@ public class VirtualApkCheckUtil {
      * 如果发现能通信且通信信息一致，
      * 则认为之前有一个相同的自己打开了（也就是被多开了）
      * 如果没有，则开启监听
+     * 这个方法没有 checkByCreateLocalServerSocket 方法简单，不推荐了
      *
      * @param secret
      * @param callback
      */
+    @Deprecated
     public void checkByPortListening(String secret, VirtualCheckCallback callback) {
         if (callback == null)
             throw new IllegalArgumentException("you have to set a callback to deal with suspect");
