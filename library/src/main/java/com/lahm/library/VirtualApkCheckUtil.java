@@ -58,7 +58,7 @@ public class VirtualApkCheckUtil {
     private String[] virtualPkgs = {
             "com.bly.dkplat",//多开分身本身的包名
 //            "dkplugin.pke.nnp",//多开分身克隆应用的包名会随机变换
-//            "com.by.chaos",//chaos引擎
+            "com.by.chaos",//chaos引擎
             "com.lbe.parallel",//平行空间
             "com.excelliance.dualaid",//双开助手
             "com.lody.virtual",//VirtualXposed，VirtualApp
@@ -225,26 +225,30 @@ public class VirtualApkCheckUtil {
     public void checkByPortListening(String secret, VirtualCheckCallback callback) {
         if (callback == null)
             throw new IllegalArgumentException("you have to set a callback to deal with suspect");
-        this.checkCallback = callback;
         startClient(secret);
-        new ServerThread(secret).start();
+        new ServerThread(secret, callback).start();
     }
 
+    //此时app作为secret的接收方，也就是server角色
     private class ServerThread extends Thread {
         String secret;
+        VirtualCheckCallback callback;
 
-        private ServerThread(String secret) {
+        private ServerThread(String secret, VirtualCheckCallback callback) {
             this.secret = secret;
+            this.callback = callback;
         }
 
         @Override
         public void run() {
             super.run();
-            startServer(secret);
+            startServer(secret, callback);
         }
     }
 
-    private void startServer(String secret) {
+    //找一个没被占用的端口开启监听
+    //如果监听到有连接，开启读线程
+    private void startServer(String secret, VirtualCheckCallback callback) {
         Random random = new Random();
         ServerSocket serverSocket = null;
         try {
@@ -253,21 +257,20 @@ public class VirtualApkCheckUtil {
                     random.nextInt(55534) + 10000));
             while (true) {
                 Socket socket = serverSocket.accept();
-                ReadThread readThread = new ReadThread(secret, socket);
+                ReadThread readThread = new ReadThread(secret, socket, callback);
                 readThread.start();
 //                serverSocket.close();
             }
         } catch (BindException e) {
-            startServer(secret);//may be loop forever
+            startServer(secret, callback);//may be loop forever
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private VirtualCheckCallback checkCallback;
-
+    //读线程读流信息，如果包含secret则认为被广义多开
     private class ReadThread extends Thread {
-        private ReadThread(String secret, Socket socket) {
+        private ReadThread(String secret, Socket socket, VirtualCheckCallback callback) {
             InputStream inputStream = null;
             try {
                 inputStream = socket.getInputStream();
@@ -276,7 +279,7 @@ public class VirtualApkCheckUtil {
                 while ((temp = inputStream.read(buffer)) != -1) {
                     String result = new String(buffer, 0, temp);
                     if (result.contains(secret)) {
-                        checkCallback.findSuspect();
+                        callback.findSuspect();
                     }
                 }
                 inputStream.close();
@@ -287,6 +290,7 @@ public class VirtualApkCheckUtil {
         }
     }
 
+    //读文件扫描已开启的端口，放入端口列表，每个端口都尝试连接一次
     private void startClient(String secret) {
         String tcp6 = CommandUtil.getSingleInstance().exec("cat /proc/net/tcp6");
         if (TextUtils.isEmpty(tcp6)) return;
@@ -305,6 +309,7 @@ public class VirtualApkCheckUtil {
         }
     }
 
+    //app此时作为secret的发送方（也就是client角色），发送完毕就结束
     private class ClientThread extends Thread {
         String secret;
         int port;
@@ -372,16 +377,20 @@ public class VirtualApkCheckUtil {
     }
 
     /**
-     * TopActivity的检查顶层task的方法
+     * TopActivity的检查顶层task的思路
      * https://github.com/109021017/android-TopActivity
+     * TopActivity作为另一个进程（观察者的角度）
+     * 能够正确识别多开软件的正确包名，类名
+     * 这也是为什么能知道使用多开分身app多开后的应用包名是随机的。
+     * 这里我只是提供调用方法，随时可能删掉。
      */
-    private String checkByTopTask(Context context) {
+    public String checkByTopTask(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> rtis = am.getRunningTasks(1);
         return rtis.get(0).topActivity.getPackageName();
     }
 
-    private String checkByTopActivity(Context context) {
+    public String checkByTopActivity(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> rtis = am.getRunningTasks(1);
         return rtis.get(0).topActivity.getClassName();
