@@ -363,7 +363,8 @@ public class VirtualApkCheckUtil {
     public void checkByCreateLocalServerSocket(String uniqueMsg, VirtualCheckCallback callback) {
         if (localServerSocket != null) return;
         try {
-            if (callback == null) throw new NullPointerException();
+            if (callback == null)
+                throw new IllegalArgumentException("you have to set a callback to deal with suspect");
             localServerSocket = new LocalServerSocket(uniqueMsg);
         } catch (IOException e) {
             callback.findSuspect();
