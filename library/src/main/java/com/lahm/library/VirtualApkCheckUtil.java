@@ -83,10 +83,6 @@ public class VirtualApkCheckUtil {
         return false;
     }
 
-    public boolean checkByPrivateFilePath(Context context) {
-        return checkByPrivateFilePath(context, null);
-    }
-
     /**
      * 检测原始的包名，多开应用会hook处理getPackageName方法
      * 顺着这个思路，如果在应用列表里出现了同样的包，那么认为该应用被多开了
@@ -113,10 +109,6 @@ public class VirtualApkCheckUtil {
         } catch (Exception ignore) {
         }
         return false;
-    }
-
-    public boolean checkByOriginApkPackageName(Context context) {
-        return checkByOriginApkPackageName(context, null);
     }
 
     /**
@@ -153,10 +145,6 @@ public class VirtualApkCheckUtil {
         return false;
     }
 
-    public boolean checkByMultiApkPackageName() {
-        return checkByMultiApkPackageName(null);
-    }
-
     /**
      * Android系统一个app一个uid
      * 如果同一uid下有两个进程对应的包名，在"/data/data"下有两个私有目录，则该应用被多开了
@@ -189,10 +177,6 @@ public class VirtualApkCheckUtil {
         }
         if (exitDirCount > 1 && callback != null) callback.findSuspect();
         return exitDirCount > 1;
-    }
-
-    public boolean checkByHasSameUid() {
-        return checkByHasSameUid(null);
     }
 
     private String getUidStrFormat() {
@@ -402,14 +386,11 @@ public class VirtualApkCheckUtil {
         }
     }
 
-    public boolean checkByCreateLocalServerSocket(String uniqueMsg) {
-        return checkByCreateLocalServerSocket(uniqueMsg, null);
-    }
-
     /**
      * TopActivity的检查顶层task的思路
      * https://github.com/109021017/android-TopActivity
      * TopActivity作为另一个进程（观察者的角度）
+     *
      * 能够正确识别多开软件的正确包名，类名
      * 这也是为什么能知道使用多开分身app多开后的应用包名是随机的。
      * 这里我只是提供调用方法，随时可能删掉。
