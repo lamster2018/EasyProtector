@@ -226,15 +226,13 @@ public class VirtualApkCheckUtil {
      * 如果发现能通信且通信信息一致，
      * 则认为之前有一个相同的自己打开了（也就是被多开了）
      * 如果没有，则开启监听
-     * 这个方法没有 checkByCreateLocalServerSocket 方法简单，不推荐了
+     * 这个方法没有 checkByCreateLocalServerSocket 方法简单，不推荐使用
      *
      * @param secret
      * @param callback
      */
     @Deprecated
     public void checkByPortListening(String secret, VirtualCheckCallback callback) {
-        if (callback == null)
-            throw new IllegalArgumentException("you have to set a callback to deal with suspect");
         startClient(secret);
         new ServerThread(secret, callback).start();
     }
@@ -288,9 +286,8 @@ public class VirtualApkCheckUtil {
                 int temp = 0;
                 while ((temp = inputStream.read(buffer)) != -1) {
                     String result = new String(buffer, 0, temp);
-                    if (result.contains(secret)) {
+                    if (result.contains(secret) && callback != null)
                         callback.findSuspect();
-                    }
                 }
                 inputStream.close();
                 socket.close();
@@ -390,7 +387,7 @@ public class VirtualApkCheckUtil {
      * TopActivity的检查顶层task的思路
      * https://github.com/109021017/android-TopActivity
      * TopActivity作为另一个进程（观察者的角度）
-     *
+     * <p>
      * 能够正确识别多开软件的正确包名，类名
      * 这也是为什么能知道使用多开分身app多开后的应用包名是随机的。
      * 这里我只是提供调用方法，随时可能删掉。
