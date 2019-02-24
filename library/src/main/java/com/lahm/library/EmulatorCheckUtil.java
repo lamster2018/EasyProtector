@@ -23,15 +23,10 @@ public class EmulatorCheckUtil {
         return SingletonHolder.INSTANCE;
     }
 
-    private EmulatorCheckCallback emulatorCheckCallback;
-
-    @Deprecated
-    public boolean readSysProperty() {
-        return readSysProperty(null, null);
-    }
-
     public boolean readSysProperty(Context context, EmulatorCheckCallback callback) {
-        this.emulatorCheckCallback = callback;
+        if (context == null)
+            throw new IllegalArgumentException("context must not be null");
+
         int suspectCount = 0;
 
         String baseBandVersion = getProperty("gsm.version.baseband");
@@ -55,18 +50,17 @@ public class EmulatorCheckUtil {
         else if (hardWare.toLowerCase().contains("ttvm")) suspectCount += 10;
         else if (hardWare.toLowerCase().contains("nox")) suspectCount += 10;
 
-        String cameraFlash = "";
+        String cameraFlash;
         String sensorNum = "sensorNum";
-        if (context != null) {
-            boolean isSupportCameraFlash = context.getPackageManager().hasSystemFeature("android.hardware.camera.flash");
-            if (!isSupportCameraFlash) ++suspectCount;
-            cameraFlash = isSupportCameraFlash ? "support CameraFlash" : "unsupport CameraFlash";
+        boolean isSupportCameraFlash = context.getPackageManager().hasSystemFeature("android.hardware.camera.flash");
+        if (!isSupportCameraFlash) ++suspectCount;
+        cameraFlash = isSupportCameraFlash ? "support CameraFlash" : "unsupport CameraFlash";
 
-            SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-            int sensorSize = sm.getSensorList(Sensor.TYPE_ALL).size();
-            if (sensorSize < 7) ++suspectCount;
-            sensorNum = sensorNum + sensorSize;
-        }
+        SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        int sensorSize = sm.getSensorList(Sensor.TYPE_ALL).size();
+        if (sensorSize < 7) ++suspectCount;
+        sensorNum = sensorNum + sensorSize;
+
 
         String userApps = CommandUtil.getSingleInstance().exec("pm list package -3");
         String userAppNum = "userAppNum";
@@ -77,7 +71,7 @@ public class EmulatorCheckUtil {
         String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
         if (null == filter) ++suspectCount;
 
-        if (emulatorCheckCallback != null) {
+        if (callback != null) {
             StringBuffer stringBuffer = new StringBuffer("ceshi start|")
                     .append(baseBandVersion).append("|")
                     .append(buildFlavor).append("|")
@@ -88,9 +82,9 @@ public class EmulatorCheckUtil {
                     .append(sensorNum).append("|")
                     .append(userAppNum).append("|")
                     .append(filter).append("|end");
-            emulatorCheckCallback.findEmulator(stringBuffer.toString());
-            emulatorCheckCallback = null;
+            callback.findEmulator(stringBuffer.toString());
         }
+
         return suspectCount > 3;
     }
 
