@@ -64,7 +64,7 @@ public class EmulatorCheckUtil {
 
         String userApps = CommandUtil.getSingleInstance().exec("pm list package -3");
         String userAppNum = "userAppNum";
-        int userAppSize = getUserAppNums(userApps);
+        int userAppSize = getUserAppNum(userApps);
         if (userAppSize < 5) ++suspectCount;
         userAppNum = userAppNum + userAppSize;
 
@@ -88,7 +88,7 @@ public class EmulatorCheckUtil {
         return suspectCount > 3;
     }
 
-    private int getUserAppNums(String userApps) {
+    private int getUserAppNum(String userApps) {
         String[] result = userApps.split("package:");
         return result.length;
     }
