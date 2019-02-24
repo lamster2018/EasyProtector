@@ -69,14 +69,22 @@ public class VirtualApkCheckUtil {
      * 通过检测app私有目录，多开后的应用路径会包含多开软件的包名
      *
      * @param context
+     * @param callback
      * @return
      */
-    public boolean checkByPrivateFilePath(Context context) {
+    public boolean checkByPrivateFilePath(Context context, VirtualCheckCallback callback) {
         String path = context.getFilesDir().getPath();
         for (String virtualPkg : virtualPkgs) {
-            if (path.contains(virtualPkg)) return true;
+            if (path.contains(virtualPkg)) {
+                if (callback != null) callback.findSuspect();
+                return true;
+            }
         }
         return false;
+    }
+
+    public boolean checkByPrivateFilePath(Context context) {
+        return checkByPrivateFilePath(context, null);
     }
 
     /**
@@ -84,13 +92,13 @@ public class VirtualApkCheckUtil {
      * 顺着这个思路，如果在应用列表里出现了同样的包，那么认为该应用被多开了
      *
      * @param context
+     * @param callback
      * @return
      */
-    public boolean checkByOriginApkPackageName(Context context) {
+    public boolean checkByOriginApkPackageName(Context context, VirtualCheckCallback callback) {
         try {
-            if (context == null) {
-                return false;
-            }
+            if (context == null)
+                throw new IllegalArgumentException("you have to set context first");
             int count = 0;
             String packageName = context.getPackageName();
             PackageManager pm = context.getPackageManager();
@@ -100,19 +108,25 @@ public class VirtualApkCheckUtil {
                     count++;
                 }
             }
+            if (count > 1 && callback != null) callback.findSuspect();
             return count > 1;
         } catch (Exception ignore) {
         }
         return false;
     }
 
+    public boolean checkByOriginApkPackageName(Context context) {
+        return checkByOriginApkPackageName(context, null);
+    }
+
     /**
      * 运行被克隆的应用，该应用会加载多开应用的so库
      * 检测已经加载的so里是否包含这些应用的包名
      *
+     * @param callback
      * @return
      */
-    public boolean checkByMultiApkPackageName() {
+    public boolean checkByMultiApkPackageName(VirtualCheckCallback callback) {
         BufferedReader bufr = null;
         try {
             bufr = new BufferedReader(new FileReader("/proc/self/maps"));
@@ -120,6 +134,7 @@ public class VirtualApkCheckUtil {
             while ((line = bufr.readLine()) != null) {
                 for (String pkg : virtualPkgs) {
                     if (line.contains(pkg)) {
+                        if (callback != null) callback.findSuspect();
                         return true;
                     }
                 }
@@ -138,13 +153,18 @@ public class VirtualApkCheckUtil {
         return false;
     }
 
+    public boolean checkByMultiApkPackageName() {
+        return checkByMultiApkPackageName(null);
+    }
+
     /**
      * Android系统一个app一个uid
      * 如果同一uid下有两个进程对应的包名，在"/data/data"下有两个私有目录，则该应用被多开了
      *
+     * @param callback
      * @return
      */
-    public boolean checkByHasSameUid() {
+    public boolean checkByHasSameUid(VirtualCheckCallback callback) {
         String filter = getUidStrFormat();
         if (TextUtils.isEmpty(filter)) return false;
 
@@ -167,8 +187,12 @@ public class VirtualApkCheckUtil {
                 }
             }
         }
-
+        if (exitDirCount > 1 && callback != null) callback.findSuspect();
         return exitDirCount > 1;
+    }
+
+    public boolean checkByHasSameUid() {
+        return checkByHasSameUid(null);
     }
 
     private String getUidStrFormat() {
@@ -363,19 +387,23 @@ public class VirtualApkCheckUtil {
      *
      * @param uniqueMsg
      * @param callback
+     * @return
      */
-    private LocalServerSocket localServerSocket;
+    private volatile LocalServerSocket localServerSocket;
 
-    public void checkByCreateLocalServerSocket(String uniqueMsg, VirtualCheckCallback callback) {
-        if (localServerSocket != null) return;
+    public boolean checkByCreateLocalServerSocket(String uniqueMsg, VirtualCheckCallback callback) {
+        if (localServerSocket != null) return false;
         try {
-            if (callback == null)
-                throw new IllegalArgumentException("you have to set a callback to deal with suspect");
             localServerSocket = new LocalServerSocket(uniqueMsg);
+            return false;
         } catch (IOException e) {
-            callback.findSuspect();
-            e.printStackTrace();
+            if (callback != null) callback.findSuspect();
+            return true;
         }
+    }
+
+    public boolean checkByCreateLocalServerSocket(String uniqueMsg) {
+        return checkByCreateLocalServerSocket(uniqueMsg, null);
     }
 
     /**
