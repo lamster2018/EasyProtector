@@ -54,19 +54,11 @@ public class EasyProtectorLib {
 //        NDKUtil.loadLibraryByName("antitrace");
     }
 
-    public static boolean checkIsUsingMultiVirtualApp() {
-        return VirtualApkCheckUtil.getSingleInstance().checkByHasSameUid();
+    public static boolean checkIsRunningInEmulator(Context context, EmulatorCheckCallback callback) {
+        return EmulatorCheckUtil.getSingleInstance().readSysProperty(context, callback);
     }
 
-    public static boolean checkIsRunningInEmulator() {
-        return EmulatorCheckUtil.getSingleInstance().readSysProperty();
-    }
-
-    public static boolean checkIsRunningInEmulator(Context context) {
-        return EmulatorCheckUtil.getSingleInstance().readSysProperty(context, null);
-    }
-
-    public static void checkByCreateLocalServerSocket(String uniqueMsg, VirtualCheckCallback callback) {
-        VirtualApkCheckUtil.getSingleInstance().checkByCreateLocalServerSocket(uniqueMsg, callback);
+    public static boolean checkIsRunningInVirtualApk(String uniqueMsg, VirtualCheckCallback callback) {
+        return VirtualApkCheckUtil.getSingleInstance().checkByCreateLocalServerSocket(uniqueMsg, callback);
     }
 }
