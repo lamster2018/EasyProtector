@@ -16,6 +16,11 @@ public class NDKUtil {
         }
     };
 
+    /**
+     * 这个方法只是用来加载antitrace.so的
+     *
+     * @param libLoader
+     */
     public static void loadLibrariesOnce(LibLoader libLoader) {
         synchronized (NDKUtil.class) {
             if (!mIsLibLoaded) {
@@ -28,6 +33,11 @@ public class NDKUtil {
         }
     }
 
+    /**
+     * 如果想用NDKUtil加载其他so库，用这个方法
+     *
+     * @param libName
+     */
     public static void loadLibraryByName(String libName) {
         if (libName == null || "".equals(libName)) return;
         synchronized (NDKUtil.class) {
