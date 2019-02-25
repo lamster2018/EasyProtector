@@ -8,9 +8,9 @@ EasyProtector，a simple way to check root/virtual app/emulator/xposed framework
 
 Ps:已经失业，最近在找工作，有空会陆续修复issue，谢谢各位的建议和意见！！
 
-更新细节点[这里](https://github.com/lamster2018/EasyProtector/releases)
+1.0.5与1.1.0的更新细节点[这里](https://github.com/lamster2018/EasyProtector/releases)
 
-文档稍后补
+
 
 # Document
 
@@ -133,4 +133,4 @@ Apache 2.0. See the [LICENSE](https://github.com/lamster2018/EasyProtector/blob/
 
 各位老铁提有关xx模拟器检测不出的issue的时候，请尽量附上emulatorInfo信息哈，我的demo里专门给你们打印了，这样方便调试。
 
-![demo capture](https://upload-images.jianshu.io/upload_images/2554175-4fe7325ab886bd7f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![demo capture](https://upload-images.jianshu.io/upload_images/2554175-0bc24eb8a302c766.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
