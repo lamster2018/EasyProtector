@@ -8,6 +8,10 @@ EasyProtector，a simple way to check root/virtual app/emulator/xposed framework
 
 Ps:已经失业，最近在找工作，有空会陆续修复issue，谢谢各位的建议和意见！！
 
+更新细节点[这里](https://github.com/lamster2018/EasyProtector/releases)
+
+文档稍后补
+
 # Document
 
 - [中国人猛戳这里](https://www.jianshu.com/p/c37b1bdb4757)
@@ -45,7 +49,7 @@ Or maven
 <dependency>
   <groupId>com.lahm.library</groupId>
   <artifactId>easy-protector-release</artifactId>
-  <version>1.0.5</version>
+  <version>1.1.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -60,11 +64,11 @@ EasyProtectorLib.checkIsDebug();
 
 EasyProtectorLib.checkIsPortUsing();
 
-EasyProtectorLib.checkIsXposedExist();
+EasyProtectorLib.checkXposedExistAndDisableIt();
 
-EasyProtectorLib.checkIsBeingTracedByJava();
+EasyProtectorLib.checkIsBeingTracedByC();
 
-EasyProtectorLib.checkIsUsingMultiVirtualApp();
+EasyProtectorLib.checkIsRunningInVirtualApk();
 
 EasyProtectorLib.checkIsRunningInEmulator();
 
