@@ -14,6 +14,7 @@ public class TestApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        EasyProtectorLib.checkXposedExistAndDisableIt();
 //        可以在启动时创建localServerSocket
 //        EasyProtectorLib.checkIsRunningInVirtualApk(getPackageName(), new VirtualCheckCallback() {
 //            @Override
