@@ -89,6 +89,7 @@ public class EmulatorCheckUtil {
     }
 
     private int getUserAppNum(String userApps) {
+        if (TextUtils.isEmpty(userApps)) return 0;
         String[] result = userApps.split("package:");
         return result.length;
     }
