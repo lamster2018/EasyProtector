@@ -38,7 +38,7 @@ public class EmulatorCheckUtil {
             ++suspectCount;
 
         String productBoard = getProperty("ro.product.board");
-        if (null == productBoard || productBoard.contains("android") | productBoard.contains("goldfish"))
+        if (null == productBoard || productBoard.contains("android") || productBoard.contains("goldfish"))
             ++suspectCount;
 
         String boardPlatform = getProperty("ro.board.platform");
