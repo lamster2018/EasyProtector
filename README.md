@@ -126,7 +126,7 @@ Apache 2.0. See the [LICENSE](https://github.com/lamster2018/EasyProtector/blob/
 |  夜神模拟器v6.5.0.0  |  v1.1.1  |     模拟器     |          |
 | 腾讯手游助手v1.0.10158.123 | v1.1.1 |      模拟器      |            |
 |  雷电模拟器v3.75  | v1.1.1 |     模拟器       |    通过hardware识别    |
-|  MuMu模拟器1.1.0.2  | v1.1.1 |     模拟器       |            |
+|  MuMu模拟器v1.1.0.2  | v1.1.1 |     模拟器       |            |
 |      一加5T       |      v1.1.0      |       真机     |            |
 |      华为P9       |      v1.1.1 |      真机     |           |
 
