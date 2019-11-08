@@ -117,22 +117,26 @@ Apache 2.0. See the [LICENSE](https://github.com/lamster2018/EasyProtector/blob/
 
 # About Emulator Detecting
 
-|   机器/测试方案   | 检测结果 |
-| :---------------: | -------- |
-|   AS自带模拟器 9.0   |      模拟器     |
-| Genymotion2.12.1  |     模拟器       |
-|  逍遥模拟器6.0.0  |       模拟器      |
-|     Appetize      |      模拟器     |
-|  夜神模拟器6.2.5.3010  |     模拟器     |
-| 腾讯手游助手2.0.6.8 |      模拟器      |
-|  雷电模拟器3.41   |     模拟器       |
-|  木木模拟器2.0.25   |     模拟器       |
-|      一加5T       |       真机     |
-|      华为P9       |      真机     |
+|   机器/测试方案   |   版本   | 检测结果 | 备注 |
+| :---------------: | -------- | -------- | -------- |
+|   AS自带模拟器 9.0   |   v1.1.1   |      模拟器     |           |
+| Genymotion2.12.1  | v1.1.0 |     模拟器       |            |
+|  逍遥模拟器v7.0.2  |  v1.1.1  |       模拟器      |             |
+|     Appetize      |    v1.1.0 |      模拟器     |           |
+|  夜神模拟器v6.5.0.0  |  v1.1.1  |     模拟器     |          |
+| 腾讯手游助手v1.0.10158.123 | v1.1.1 |      模拟器      |            |
+|  雷电模拟器v3.75  | v1.1.1 |     模拟器       |    通过hardware识别    |
+|  MuMu模拟器1.1.0.2  | v1.1.1 |     模拟器       |            |
+|      一加5T       |      v1.1.0      |       真机     |            |
+|      华为P9       |      v1.1.1 |      真机     |           |
 
 自2018/6/13集成并上线自己的项目里，至10/24已经收集了11w+疑似模拟器的检测数据，
 如果各位需要在业务里做非常细致的模拟器鉴别，可以在自行增加判断条件。
 
 各位老铁提有关xx模拟器检测不出的issue的时候，请尽量附上emulatorInfo信息哈，我的demo里专门给你们打印了，这样方便调试。
+
+**PS：各版本检测结果可以去[image](https://github.com/lamster2018/EasyProtector/tree/dev_v1.1.1/image)查看**
+
+
 
 ![demo capture](https://upload-images.jianshu.io/upload_images/2554175-0bc24eb8a302c766.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
