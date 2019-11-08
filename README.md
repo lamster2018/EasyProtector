@@ -128,7 +128,9 @@ Apache 2.0. See the [LICENSE](https://github.com/lamster2018/EasyProtector/blob/
 |  雷电模拟器v3.75  | v1.1.1 |     模拟器       |    通过hardware识别    |
 |  MuMu模拟器v1.1.0.2  | v1.1.1 |     模拟器       |            |
 |      一加5T       |      v1.1.0      |       真机     |            |
-|      华为P9       |      v1.1.1 |      真机     |           |
+|      华为P9_8.0_EMUI8.0      |      v1.1.1 |      真机     |           |
+| VIVO Y76A_6.0_FuntouchOS2.6 | v1.1.1 | 真机 | Board为null |
+| OPPO R9tm_5.1_colorOS3.0 | v1.1.1 | 真机 |  |
 
 自2018/6/13集成并上线自己的项目里，至10/24已经收集了11w+疑似模拟器的检测数据，
 如果各位需要在业务里做非常细致的模拟器鉴别，可以在自行增加判断条件。
