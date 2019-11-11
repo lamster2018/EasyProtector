@@ -186,7 +186,6 @@ public class EmulatorCheckUtil {
         switch (tempValue) {
             case "ttvm"://天天模拟器
             case "nox"://夜神模拟器
-            case "qcom"://夜神模拟器
             case "cancro"://网易MUMU模拟器
             case "intel"://逍遥模拟器
             case "vbox":
