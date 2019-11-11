@@ -159,6 +159,7 @@ public class EmulatorCheckUtil {
             callback.findEmulator(stringBuffer.toString());
         }
 
+        //嫌疑值大于3，认为是模拟器
         return suspectCount > 3;
     }
 
