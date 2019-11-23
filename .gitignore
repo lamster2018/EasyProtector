@@ -34,10 +34,8 @@ proguard/
 .DS_Store
 /captures
 /.idea
-/gradle
 .idea
 *.prefs
-gradle/
 gradlew
 gradlew.bat
 captures/
