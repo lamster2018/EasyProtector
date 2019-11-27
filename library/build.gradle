@@ -6,10 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 110
-        versionName "1.1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode gitVersionCode()
+        versionName gitVersionName()
 
         ndk {
             abiFilters "x86", "armeabi-v7a"
@@ -38,7 +36,26 @@ publish {
     userOrg = 'lamster2018' //bintray注册的用户名（不是邮箱）
     groupId = 'com.lahm.library'
     artifactId = 'easy-protector-release' //项目名称
-    publishVersion = '1.1.0' //版本号
+    publishVersion = gitVersionName() //版本号
     desc = 'protect your android app' //项目描述。可空。
     website = 'https://github.com/lamster2018/EasyProtector' //项目地址，一般填github地址。可空。
+}
+
+/**
+ * 通过git的Commit数来获取version code
+ * @return
+ */
+def static gitVersionCode() {
+    def cmd = 'git rev-list HEAD --count'
+    10000 + cmd.execute().text.trim().toInteger()
+}
+
+/**
+ * 通过git上的最近一个tag来获取version name
+ * @return
+ */
+def static gitVersionName() {
+    def cmd = 'git describe --tags'
+    def name = cmd.execute().text.trim()
+    return name
 }
