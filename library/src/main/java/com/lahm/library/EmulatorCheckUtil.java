@@ -35,10 +35,6 @@ public class EmulatorCheckUtil {
 
         int suspectCount = 0;
 
-        String baseBandVersion = getProperty("gsm.version.baseband");
-        if (null == baseBandVersion || baseBandVersion.contains("1.0.0.0"))
-            suspectCount += 2;// 提高了权重，因为已有模拟器都为null （夜神，雷电，腾讯手游，mumu，逍遥） - 2019.5.29
-
         //检测硬件名称
         CheckResult hardwareResult = checkFeaturesByHardware();
         switch (hardwareResult.result) {
@@ -94,39 +90,6 @@ public class EmulatorCheckUtil {
                 if (callback != null) callback.findEmulator("board = " + boardResult.value);
                 return true;
         }
-
-        String hardWare = getProperty("ro.hardware");
-        if (null == hardWare) ++suspectCount;
-        else if (hardWare.toLowerCase().contains("ttvm")) suspectCount += 10;
-        else if (hardWare.toLowerCase().contains("nox")) suspectCount += 10;
-		
-		String genymotion_version = getProperty("ro.genymotion.version");
-        boolean genymotion_versionIllegal = null != genymotion_version || Build.MANUFACTURER.contains("Genymotion");
-        if (genymotion_versionIllegal) suspectCount++;// 检验genymotion
-		
-		String vbox_dpi = getProperty("androVM.vbox_dpi");
-        boolean vbox_dpiIllegal = null != vbox_dpi || (null != buildFlavor && buildFlavor.contains("vbox")) || Build.PRODUCT.contains("vbox86p");
-        if (vbox_dpiIllegal) suspectCount++;// 检验vbox
-
-		
-		String fake_camera = getProperty("qemu.sf.fake_camera");
-        boolean fake_cameraIllegal = null != fake_camera;
-        if (fake_cameraIllegal) suspectCount++;// 检验相机
-		
-		boolean productModel = Build.MODEL.contains("Emulator") || Build.MODEL.contains("Android SDK built for x86");
-        if (productModel) suspectCount++;// 检验原生虚拟机
-		
-		boolean productDevice = Build.DEVICE.startsWith("generic") || Build.DEVICE.contains("x86");
-        if (productDevice) suspectCount++;// 检验原生虚拟机
-		
-		boolean productName = Build.PRODUCT.contains("emulator") || Build.PRODUCT.contains("x86");
-        if (productName) suspectCount++;// 检验原生虚拟机
-		
-        String cameraFlash;
-        String sensorNum = "sensorNum";
-        boolean isSupportCameraFlash = context.getPackageManager().hasSystemFeature("android.hardware.camera.flash");
-        if (!isSupportCameraFlash) ++suspectCount;
-        cameraFlash = isSupportCameraFlash ? "support CameraFlash" : "unsupport CameraFlash";
 
         //检测主板平台
         CheckResult platformResult = checkFeaturesByPlatform();
