@@ -7,7 +7,7 @@ EasyProtector，a simple way to check root/virtual app/emulator/xposed framework
 既然来都来了，欢迎大家star/fork,哪怕提个issue都好，我希望这是一个好用的库（省去application的初始化操作，避免更多的权限要求，尽可能的懒加载）
 
 
-1.2.0的更新细节点[这里](https://github.com/lamster2018/EasyProtector/releases)
+更新细节点[这里](https://github.com/lamster2018/EasyProtector/releases)
 
 主要是修复了一堆bug，适配情况看image文件夹里的图，
 
