@@ -143,7 +143,7 @@ public class EmulatorCheckUtil {
         CheckResult baseBandResult = checkFeaturesByBaseBand();
         switch (baseBandResult.result) {
             case RESULT_MAYBE_EMULATOR:
-                ++suspectCount;
+                suspectCount += 2;//模拟器基带信息为null的情况概率相当大
                 break;
             case RESULT_EMULATOR:
                 if (callback != null) callback.findEmulator("baseBand = " + baseBandResult.value);
@@ -195,8 +195,8 @@ public class EmulatorCheckUtil {
                     .append("\r\n").append("suspectCount = ").append(suspectCount);
             callback.findEmulator(stringBuffer.toString());
         }
-
-        return suspectCount >= 4;
+        //嫌疑值大于3，认为是模拟器
+        return suspectCount > 3;
     }
 
     private int getUserAppNum(String userApps) {
