@@ -56,6 +56,8 @@ def static gitVersionCode() {
  */
 def static gitVersionName() {
     def cmd = 'git describe --tags'
-    def name = cmd.execute().text.trim()
+    def tag = cmd.execute().text.trim()
+    def arr = tag.split("-")
+    def name = arr[0]
     return name
 }
