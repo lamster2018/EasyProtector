@@ -2,15 +2,15 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode gitVersionCode()
         versionName gitVersionName()
 
         ndk {
-            abiFilters "x86", "armeabi-v7a"
+            abiFilters 'armeabi-v7a','arm64-v8a'
         }
     }
 
