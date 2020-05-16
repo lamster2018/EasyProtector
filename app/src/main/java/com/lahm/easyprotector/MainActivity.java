@@ -1,8 +1,10 @@
 package com.lahm.easyprotector;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.widget.TextView;
 
 import com.lahm.library.EasyProtectorLib;
