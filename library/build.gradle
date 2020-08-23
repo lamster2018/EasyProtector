@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+//apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 29
@@ -32,14 +32,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
-publish {
-    userOrg = 'lamster2018' //bintray注册的用户名（不是邮箱）
-    groupId = 'com.lahm.library'
-    artifactId = 'easy-protector-release' //项目名称
-    publishVersion = gitVersionName() //版本号
-    desc = 'protect your android app' //项目描述。可空。
-    website = 'https://github.com/lamster2018/EasyProtector' //项目地址，一般填github地址。可空。
-}
+//publish {
+//    userOrg = 'lamster2018' //bintray注册的用户名（不是邮箱）
+//    groupId = 'com.lahm.library'
+//    artifactId = 'easy-protector-release' //项目名称
+//    publishVersion = gitVersionName() //版本号
+//    desc = 'protect your android app' //项目描述。可空。
+//    website = 'https://github.com/lamster2018/EasyProtector' //项目地址，一般填github地址。可空。
+//}
 
 /**
  * 通过git的Commit数来获取version code
