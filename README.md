@@ -135,4 +135,3 @@ Apache 2.0. See the [LICENSE](https://github.com/lamster2018/EasyProtector/blob/
 校招内推
 ![](https://upload-images.jianshu.io/upload_images/2554175-cf6fe2efdd60c180.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-[![Anurag's github stats](https://github-readme-stats.vercel.app/api/top-langs/api?username=lamster2018)](https://github.com/anuraghazra/github-readme-stats)
