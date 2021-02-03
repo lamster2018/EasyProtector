@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.checkByCreateLocalServerSocket:
                 TextView v6 = findViewById(R.id.v6);
-                v6.setText(EasyProtectorLib.checkIsRunningInVirtualApk("lss", null) ?
+                v6.setText(EasyProtectorLib.checkIsRunningInVirtualApk(getPackageName(), null) ?
                         "LocalServerSocket-NO" : "LocalServerSocket-OK");
                 break;
             case R.id.checkRoot:
