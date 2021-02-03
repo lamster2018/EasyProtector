@@ -372,6 +372,13 @@ public class VirtualApkCheckUtil {
      */
     private volatile LocalServerSocket localServerSocket;
 
+    /**
+     * @param uniqueMsg 不要使用固定值，多个马甲包或多进程时会误报。
+     *                  如果是单进程使用，推荐使用context.getPackageName()；
+     *                  如果是多进程，推荐使用进程名{@link SecurityCheckUtil#getCurrentProcessName()}
+     * @param callback
+     * @return
+     */
     public boolean checkByCreateLocalServerSocket(String uniqueMsg, VirtualCheckCallback callback) {
         if (localServerSocket != null) return false;
         try {

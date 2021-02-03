@@ -17,6 +17,7 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -354,5 +355,37 @@ public class SecurityCheckUtil {
         } catch (Exception fuck) {
             return false;
         }
+    }
+
+    /**
+     * 获取当前进程名
+     * @return
+     */
+    public String getCurrentProcessName() {
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream("/proc/self/cmdline");
+            byte[] buffer = new byte[256];// 修改长度为256，在做中大精简版时发现包名长度大于32读取到的包名会少字符，导致常驻进程下的初始化操作有问题
+            int len = 0;
+            int b;
+            while ((b = fis.read()) > 0 && len < buffer.length) {
+                buffer[len++] = (byte) b;
+            }
+            if (len > 0) {
+                String s = new String(buffer, 0, len, "UTF-8");
+                return s;
+            }
+        } catch (Exception e) {
+
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (Exception e) {
+
+                }
+            }
+        }
+        return null;
     }
 }
