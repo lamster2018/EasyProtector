@@ -1,3 +1,5 @@
+# 之前托管在bintray，然后这个仓库关停了，我也没空转移维护，个人力量搞不过厂商，暂时不维护了。
+
 # EasyProtector  [ ![Download](https://api.bintray.com/packages/lamster2018/maven/easy-protector-release/images/download.svg) ](https://bintray.com/lamster2018/maven/easy-protector-release/_latestVersion)
 
 EasyProtector，a simple way to check root/virtual app/emulator/xposed framework/tracer/debugger.
