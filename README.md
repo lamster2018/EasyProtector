@@ -131,9 +131,3 @@ Apache 2.0. See the [LICENSE](https://github.com/lamster2018/EasyProtector/blob/
 
 
 ![demo capture](https://upload-images.jianshu.io/upload_images/2554175-0bc24eb8a302c766.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
-# AD
-校招内推
-![](https://upload-images.jianshu.io/upload_images/2554175-cf6fe2efdd60c180.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
